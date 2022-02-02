@@ -1,0 +1,300 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="row">
+
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-header">
+                <h2>Pos Satış Raporu</h2>
+                <hr />
+                <form id="filtrealani" novalidate>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="form-control-label">Rapor İlk Tarihi</label>
+                                <input class="form-control" data-placeholder="" autocomplete="off" placeholder="" id="Tx_Src_tarih" name="date" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="form-control-label">Rapor Son Tarihi</label>
+                                <input class="form-control" data-placeholder="" autocomplete="off" placeholder="" id="Tx_Src_son_tarih" name="date2" />
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+                <div class="col-md-2">
+                    <button class="btn btn-primary btn-filtre">Filtrele</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class=" table table-striped- table-bordered table-hover table-checkable" id="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tarih</th>
+                            <th>Açılış</th>
+                            <th>Kapanış</th>
+                            <th>Kişi</th>
+                            <th>FişNo</th>
+                            <th>İşlem</th>
+                            <th>MasaNo</th>
+                            <th>Garson</th>
+                            <th>İnd.Tutar</th>
+                            <th>Açık Hesap</th>
+                            <th>Kr.Kartı</th>
+                            <th>Nakit</th>
+                            <th>Toplam</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section css
+{
+    <link href="~/plugins/adminLte/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <link href="~/plugins/adminLte/plugins/datatables-select/css/select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/plugins/adminLte/plugins/datatables-rowgroup/css/rowGroup.bootstrap4.css" rel="stylesheet" />
+    <style>
+        .notiflix-block-position {
+            min-height: 0px !important;
+        }
+    </style>
+}
+
+
+@section Scripts
+{
+    <script src="~/plugins/adminLte/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <script src="~/plugins/adminLte/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/plugins/adminLte/plugins/datatables-rowgroup/js/dataTables.rowGroup.js"></script>
+    @* <script src="~/plugins/adminLte/plugins/datatables-select/js/dataTables.select.js"></script>*@
+    <script>
+
+
+
+        $(function () {
+
+            //Date range picker with time picker
+            $('input[id*="tarih"').daterangepicker({
+                setDate: new Date(),
+                timePicker: true,
+                autoApply: true,
+                timePicker24Hour: true,
+                singleDatePicker: true,
+                timePickerIncrement: 30,
+                locale: {
+                    format: 'DD.MM.YYYY',
+                    applyLabel: "Uygula",
+                    cancelLabel: "İptal",
+                    daysOfWeek: [
+                        "Pz",
+                        "Pts",
+                        "Sa",
+                        "Çar",
+                        "Per",
+                        "Cu",
+                        "Cts"
+                    ],
+                    monthNames: [
+                        "Ocak",
+                        "Şubat",
+                        "Mart",
+                        "Nisan",
+                        "Mayıs",
+                        "Haziran",
+                        "Temmuz",
+                        "Ağustos",
+                        "Eylül",
+                        "Ekim",
+                        "Kasım",
+                        "Aralık"
+                    ],
+                    firstDay: 1
+                }
+            },
+                function (start, end, label) {
+
+                })
+
+        });
+
+        $(document).ready(function () {
+            getData("PosSalesReport/GetReport");
+        });
+
+        var getData = function (url) {
+
+            var formData = null;
+
+            formData = $("#filtrealani").serialize();
+
+            console.log(formData);
+            $.ajax({
+                beforeSend: function () {
+                    Notiflix.Block.Dots('.card', 'Yükleniyor');
+                },
+                url: url,
+                type: "POST",
+                cache: false,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove
+                processData: false,
+                data: formData,
+                complete: function () {
+                    Notiflix.Block.Remove("*");
+                },
+                success: function (data) {
+
+                    console.log(data);
+
+                    var dataTable = $('#table').DataTable({
+                        destroy: true,
+                        responsive: true,
+                        dom: "<'row'<'col-sm-8 text-left'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>",
+                        lengthMenu: [[150,250, 500, -1], ["150", "250","500", "Hepsi"]],
+                        pageLength: 150,
+                        language: {
+                            "emptyTable": "Kayıt bulunamadı",
+                            "info": "_START_ - _END_ arası kayıtlar",
+                            "infoEmpty": "Kayıt bulunamadı",
+                            "infoFiltered": "(_MAX_ kayıt arasından filtrelendi)",
+                            "lengthHappyHour": "_HappyHour_",
+                            "search": "",
+                            "searchPlaceholder": "Arama",
+                            "zeroRecords": "Kayıt bulunamadı",
+                            "lengthMenu": "Gösterilen _MENU_  Kayıt",
+                        },
+                        order: [[1, 'asc']],
+                        buttons: [
+
+                            { extend: 'print', text: 'Listeyi Yazdır' },
+                            //{ extend: 'copyHtml5', text: 'Kopyala' },
+                            { extend: 'excelHtml5', text: 'Excel' },
+                            //{ extend: 'csvHtml5', text: 'CSV' },
+                            { extend: 'pdfHtml5', text: 'PDF' },
+                            // { extend: 'colvis', text: 'Göster' }
+                        ],
+                        columns: [
+                            { "data": null },
+                            {
+                                "data": "tarih",
+                                "responsivePriority": 1, "targets": 0,
+                                "render": function (data, type, row) {
+                                    return moment(data).format("DD.MM.YYYY")
+                                }
+                            },
+                            {
+                                "data": "aSaati",
+                                "render": function (data, type, row) {
+                                    return moment(data).format("HH:mm")
+                                }
+                            },
+                            {
+                                "data": "kSaati",
+                                "render": function (data, type, row) {
+                                    return moment(data).format("HH:mm")
+                                }
+                            },
+                            { "data": "kisi" },
+                            { "data": "fisno" },
+                            { "data": "islem" },
+                            { "data": "masano" },
+                            { "data": "garson" },
+                            {
+                                "data": "indTutar",
+                                "render": $.fn.dataTable.render.number('.', ',', 2)
+                            },
+                            {
+                                "data": "kredi",
+                                "render": $.fn.dataTable.render.number('.', ',', 2)
+                            },
+                            {
+                                "data": "kKarti",
+                                "render": $.fn.dataTable.render.number('.', ',', 2)
+                            },
+                            {
+                                "data": "nakit",
+                                "render": $.fn.dataTable.render.number('.', ',', 2)
+                            },
+                            {
+                                "data": "toplam",
+                                "responsivePriority": 1, "targets": 0,
+                                "render": $.fn.dataTable.render.number('.', ',', 2)
+                            }
+
+
+                        ],
+
+                        "createdRow": function (row, data, dataIndex) {
+                            if (data.iade) {
+                                $(row).css({ "background-color": "#FFCFCF" });
+                            }
+                        },
+                        rowGroup: {
+                          
+                            startRender: null,
+                            endRender: function (rows, group) {
+                                console.log(group);
+                                var total = rows.data().pluck('toplam').reduce(function (a, b) { return a + b; }, 0);
+                                total = $.fn.dataTable.render.number('.', ',', 0, '₺').display(total);
+
+                                var cash = rows.data().pluck('nakit').reduce(function (a, b) { return a + b; }, 0);
+                                cash = $.fn.dataTable.render.number('.', ',', 0, '₺').display(cash);
+
+                                var credit = rows.data().pluck('kKarti').reduce(function (a, b) { return a + b; }, 0);
+                                credit = $.fn.dataTable.render.number('.', ',', 0, '₺').display(credit);
+
+                                var open = rows.data().pluck('kredi').reduce(function (a, b) { return a + b; }, 0);
+                                open = $.fn.dataTable.render.number('.', ',', 0, '₺').display(open);
+
+                                var discount = rows.data().pluck('indTutar').reduce(function (a, b) { return a + b; }, 0);
+                                discount = $.fn.dataTable.render.number('.', ',', 0, '₺').display(discount);
+
+                                return $('<tr/>')
+                                    .append("<td colspan='3'><div class='row'><div class='col-12'><b>" + moment(group).format("DD.MM.YYYY") + " Toplamlar</b></div><div class='col-6'>İndirim</div><div class='col-6'>: " + discount + "</div><div class='col-6'>Açık Hesap</div><div class='col-6'>: " + open + "</div><div class='col-6'>K.Kartı</div><div class='col-6'>: " + credit + "</div><div class='col-6'>Nakit</div><div class='col-6'>: " + cash + "</div><div class='col-6'>Genel Toplam</div><div class='col-6'>: " + total + "</div></div></td>");
+        
+                            },
+                            dataSrc: function (data) {
+                                return data.tarih;
+                            },
+                           
+                        },
+                        data: data.data
+                    });
+
+                    dataTable.on('order.dt search.dt', function () {
+                        dataTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                            cell.innerHTML = i + 1;
+                        });
+                    }).draw();
+                }
+            });
+        };
+
+
+        $(document).on("click", ".btn-filtre", function () {
+
+
+            getData("PosSalesReport/GetReport");
+
+
+        });
+
+
+
+
+
+    </script>
+
+}

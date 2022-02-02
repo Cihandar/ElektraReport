@@ -1,0 +1,63 @@
+﻿@model List<ElektraReport.Models.ReportModels.PosOpenTablesDetails>
+@{
+
+}
+<style>
+ 
+</style>
+<div class="modal fade EfaturaPortalApp-forms-modal" id="crud-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title">Adisyon Detay</h5>
+                <button type="button" class="close OtelApp-forms-modal-close" data-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="list-group mb-5">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Tarih
+                                <span class="badge badge-primary badge-pill">@Model[0].Tarih.ToString("dd.MM.yyyy")</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Açılış Saati
+                                <span class="badge badge-primary badge-pill">@Model[0].ASaati.ToString("HH:mm:ss")</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Garson
+                                <span class="badge badge-primary badge-pill">@Model[0].Garson</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Genel Toplam
+                                <span class="badge badge-primary badge-pill">@Model[0].GenelToplam.ToString("C2")</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-5 bg-primary color-palette "><h5 class="text-center">Ürün Adı</h5></div>
+                    <div class="col-2 bg-primary color-palette"><h5 class="text-center">Birim Fiyat</h5></div>
+                    <div class="col-2 bg-primary color-palette"><h5 class="text-center">Adet</h5></div>
+                    <div class="col-3 bg-primary color-palette"><h5 class="text-center">Toplam</h5></div>
+                </div>
+                @foreach (var data in Model)
+                {
+                    <div class="row">
+                        <div class="col-5"><h5 class="text-center">@data.UrunAdi</h5></div>
+                        <div class="col-2"><h5 class="text-center">@data.BFiyat.ToString("C2")</h5></div>
+                        <div class="col-2"><h5 class="text-center">@data.Adet</h5></div>
+                        <div class="col-3"><h5 class="text-center">@data.Toplam.ToString("C2")</h5></div>
+                    </div>
+                }
+            <div class="row">
+                <div class="col-12 bg-gradient-success color-palette text-right"><h5 class="text-center">Genel Toplam @Model[0].GenelToplam.ToString("C2")</h5></div>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary OtelApp-forms-modal-close" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>

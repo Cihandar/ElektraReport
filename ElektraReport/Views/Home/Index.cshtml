@@ -1,0 +1,223 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card direct-chat direct-chat-primary">
+            <div class="card-header ui-sortable-handle" style="cursor: move;">
+                <div class="row">
+                    <div class="col-md-5">
+                        <form id="filtrealani" action="javascript:void(0);">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="form-control-label">İlk Tarih</label>
+                                        <input class="form-control" data-placeholder="" autocomplete="off" placeholder="" id="Tx_Src_tarih" name="date" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Son Tarih</label>
+                                        <input class="form-control" data-placeholder="" autocomplete="off" placeholder="" id="Tx_Src_son_tarih" name="date2" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="form-control-label">..</label>
+                                        <button class="btn btn-primary btn-filtre form-control">Filtrele</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-3 Forecast">
+
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+
+            </div>
+            <!-- /.card-footer-->
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card direct-chat direct-chat-primary">
+            <div class="card-header ui-sortable-handle" style="cursor: move;">
+
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body chart">
+                <canvas id="Chart" width="800"></canvas>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+
+            </div>
+            <!-- /.card-footer-->
+        </div>
+    </div>
+</div>
+@section css
+{
+    <link href="~/plugins/adminLte/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <link href="~/plugins/adminLte/plugins/datatables-select/css/select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/plugins/adminLte/plugins/chart.js/Chart.css" rel="stylesheet" />
+    <style>
+        .notiflix-block-position {
+            min-height: 0px !important;
+        }
+    </style>
+}
+@section Scripts
+{
+
+    <script src="~/plugins/adminLte/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <script src="~/plugins/adminLte/plugins/daterangepicker/daterangepicker.js"></script>
+
+    <script>
+
+        $(function () {
+
+            //Date range picker with time picker
+            $('input[id*="tarih"').daterangepicker({
+                setDate: new Date(),
+                timePicker: true,
+                autoApply: true,
+                timePicker24Hour: true,
+                singleDatePicker: true,
+                timePickerIncrement: 30,
+                locale: {
+                    format: 'DD.MM.YYYY',
+                    applyLabel: "Uygula",
+                    cancelLabel: "İptal",
+                    daysOfWeek: [
+                        "Pz",
+                        "Pts",
+                        "Sa",
+                        "Çar",
+                        "Per",
+                        "Cu",
+                        "Cts"
+                    ],
+                    monthNames: [
+                        "Ocak",
+                        "Şubat",
+                        "Mart",
+                        "Nisan",
+                        "Mayıs",
+                        "Haziran",
+                        "Temmuz",
+                        "Ağustos",
+                        "Eylül",
+                        "Ekim",
+                        "Kasım",
+                        "Aralık"
+                    ],
+                    firstDay: 1
+                }
+            },
+                function (start, end, label) {
+
+                })
+
+    
+            var ctx = document.getElementById('Chart').getContext('2d');
+            getChart(ctx);
+        });
+
+        $(document).ready(function () {
+            getData("Home/GetReport");
+ 
+        });
+
+        $(document).on("click", ".btn-filtre", function () {
+            getData("Home/GetReport");
+        });
+
+
+        var getData = function (url) {
+
+            var formData = null;
+
+            formData = $("#filtrealani").serialize();
+
+            console.log(formData);
+            $.ajax({
+                beforeSend: function () {
+                    Notiflix.Block.Dots('.card', 'Yükleniyor');
+                },
+                url: url,
+                type: "POST",
+                cache: false,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove
+                processData: false,
+                data: formData,
+                complete: function () {
+                    Notiflix.Block.Remove("*");
+                },
+                success: function (data) {
+                    $(".Forecast").html(data);
+                }
+            });
+        };
+
+      
+
+        var getChart = function (ctx) {
+            $.ajax({
+                beforeSend: function () {
+                    Notiflix.Block.Dots('.chart', 'Yükleniyor');
+                },
+                url: "Home/GetChartReport",
+                type: "POST",
+                processData: false,
+                dataType: 'json',
+                complete: function () {
+                    Notiflix.Block.Remove("*");
+                },
+                success: function (d) {
+
+                    console.log(d);
+
+                    var labels = d.map(function (c) {
+                        return moment(c.tarih).format("DD.MM.YYYY");
+                    });
+                    var data = d.map(function (c) {
+                        return c.toplam;
+                    });
+
+                    var chart = new Chart(ctx, {
+                        // The type of chart we want to create
+                        type: 'bar',
+                        options: {
+                            indexAxis: 'y',
+                            responsive: true
+                        },
+                        // The data for our dataset
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: "Toplam Ciro",
+                                backgroundColor: 'rgb(255, 99, 132)',
+                                borderColor: 'rgb(255, 99, 132)',
+                                data: data,
+                            }]
+                        },
+                        // Configuration options go here
+     
+          
+                    });
+                }
+
+            });
+        };
+    </script>
+
+    <script src="~/plugins/adminLte/plugins/chart.js/Chart.js"></script>
+}

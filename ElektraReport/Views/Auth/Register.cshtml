@@ -1,0 +1,208 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model ElektraReport.Applications.Auths.ViewModels.VM_AuthRegister;
+@{
+
+    Layout = null;
+}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Alze E Portal Kayıt Formu</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link href="~/plugins/adminLte/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="~/plugins/adminLte/plugins/icheck-bootstrap/icheck-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/plugins/adminLte/dist/css/adminlte.min.css" rel="stylesheet" />
+    <link href="~/css/login.css" rel="stylesheet" />
+    <link href="~/plugins/notiflix/css/notiflix.css" rel="stylesheet" />
+</head>
+ 
+<body class="hold-transition register-page">
+    <div class="register-box">
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="javascript:;" class="h1"><img src="~/images/logoElektraReport.png" alt="Alze E Portal Logo"></a>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Aşağıdaki Formu Doldurarak Kaydınızı Tamamlayın.</p>
+
+                <form class="EfaturaPortalApp-forms" id="EfaturaPortalApp-forms" asp-controller="Auth" asp-action="Login" enctype="multipart/form-data" data-ajax-begin="EfaturaPortalAppOnBegin" data-ajax-complete="EfaturaPortalAppOnComplete('crud-modal')" data-ajax-failure="EfaturaPortalAppOnFailure" data-ajax-success="EfaturaPortalAppOnSuccessWithReport(data, redirectRegisterUrl)" data-ajax="true" data-ajax-method="POST" data-ajax-url="/Auth/Register">
+
+                    <label asp-for="Company.CompanyName" class="form-control-label">Firma Ünvanı</label>
+                    <span asp-validation-for="Company.CompanyName" class="text-danger"> </span>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Firma Ünvanı" asp-for="Company.CompanyName">
+
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-building"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @*<label asp-for="Firma.VergiNumarasi">Vergi Numarası</label>
+        <span asp-validation-for="Firma.VergiNumarasi" class="text-danger"> </span>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Vergi Numarası" asp-for="Firma.VergiNumarasi">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-address-card"></span>
+                </div>
+            </div>
+        </div>*@
+
+
+                    @*<label asp-for="Firma.VergiDairesi">Vergi Dairesi</label>
+        <span asp-validation-for="Firma.VergiDairesi" class="text-danger"> </span>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Vergi Dairesi" asp-for="Firma.VergiDairesi">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-address-card"></span>
+                </div>
+            </div>
+        </div>*@
+
+
+                    <label asp-for="FullName">Yetkili Kişi Ad Soyad</label>
+                    <span asp-validation-for="FullName" class="text-danger"> </span>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Yetkili Kişi Ad Soyad" asp-for="FullName">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user-alt"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @*<label asp-for="Firma.Telefon">Telefon</label>
+        <span asp-validation-for="Firma.Telefon" class="text-danger"> </span>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Telefon" asp-for="Firma.Telefon">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-mobile-alt"></span>
+                </div>
+            </div>
+        </div>*@
+
+
+                    <label asp-for="Email">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"> </span>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Email" asp-for="Email">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-at"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label asp-for="Password">Şifre</label>
+                    <span asp-validation-for="Password" class="text-danger"> </span>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Şifrenizi Girin" asp-for="Password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-at"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-group mb-3">
+                                <dnt-captcha asp-captcha-generator-max="9999"
+                                             asp-captcha-generator-min="1111"
+                                             asp-captcha-generator-language="Turkish"
+                                             asp-captcha-generator-display-mode="ShowDigits"
+                                             asp-use-relative-urls="true"
+                                             asp-placeholder="Güvenlik Kodu"
+                                             asp-validation-error-message="Lütfen Güvenlik Kodunu Girin."
+                                             asp-font-name="Arial"
+                                             asp-font-size="50"
+                                             asp-fore-color="#000"
+                                             asp-back-color="#60ABF1"
+                                             asp-text-box-class="text-box form-control"
+                                             asp-text-box-template="<span class='input-group-prepend'><span class='form-group-text'></span></span>{0}"
+                                             asp-validation-message-class="text-danger"
+                                             asp-refresh-button-class="fas fa-redo btn-sm"
+                                             asp-use-noise="false" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @*<div class="col-12">
+                            <div class="icheck-primary">
+                                <input type="checkbox" value="agree" asp-for="ServiceAgreement">
+                                <label asp-for="ServiceAgreement">
+                                    <a href="javascript:;">Hizmet Sözleşmesini</a> Onaylıyorum.
+                                </label>
+                                <span asp-validation-for="ServiceAgreement" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="icheck-primary">
+                                <input type="checkbox" value="agree" asp-for="MessageDelivery">
+                                <label asp-for="MessageDelivery">
+                                    İletişim Bilgilerimi e-iletim gönderimi onaylıyorum.
+                                </label>
+                                <span asp-validation-for="MessageDelivery" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="icheck-primary">
+                                <input type="checkbox" asp-for="Kvkk" value="agree">
+                                <label asp-for="Kvkk">
+                                    Verilerimin <a href="javascript:void(0)">Açık Rıza Metni'nde</a> belirtilen şekilde işlenmesine onay veriyorum.
+                                </label>
+                                <span asp-validation-for="Kvkk" class="text-danger"> </span>
+                            </div>
+                        </div>*@
+                        <!-- /.col -->
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block">Kayıt Ol</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+
+                @*<div class="social-auth-links text-center">
+            <a href="#" class="btn btn-block btn-primary">
+                <i class="fab fa-facebook mr-2"></i>
+                Sign up using Facebook
+            </a>
+            <a href="#" class="btn btn-block btn-danger">
+                <i class="fab fa-google-plus mr-2"></i>
+                Sign up using Google+
+            </a>
+        </div>*@
+
+                <a href="Login" class="text-center">Giriş Yap</a>
+            </div>
+            <!-- /.form-box -->
+        </div><!-- /.card -->
+    </div>
+ 
+</body>
+
+    <!-- /.login-box -->
+    <!-- jQuery -->
+    <script src="~/plugins/adminLte/plugins/jquery/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.ajax.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/plugins/adminLte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/plugins/adminLte/dist/js/adminlte.min.js"></script>
+
+    <script src="~/plugins/notiflix/js/notiflix.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/Pages/Auth/index.js" asp-append-version="true"></script>

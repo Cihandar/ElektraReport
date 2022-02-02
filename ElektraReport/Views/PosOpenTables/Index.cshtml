@@ -1,0 +1,99 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="row">
+
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-header">
+                <h2>Pos Açık Masalar ( Anlık Durum )</h2>
+            </div>
+            <div class="card-body p-5 tables">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section css
+{
+    <link href="~/plugins/adminLte/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <link href="~/plugins/adminLte/plugins/datatables-select/css/select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/plugins/adminLte/plugins/datatables-rowgroup/css/rowGroup.bootstrap4.css" rel="stylesheet" />
+    <style>
+        .notiflix-block-position {
+            min-height: 0px !important;
+        }
+    </style>
+}
+
+
+@section Scripts
+{
+    <script src="~/plugins/adminLte/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <script src="~/plugins/adminLte/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/plugins/adminLte/plugins/datatables-rowgroup/js/dataTables.rowGroup.js"></script>
+    @* <script src="~/plugins/adminLte/plugins/datatables-select/js/dataTables.select.js"></script>*@
+    <script>
+
+
+
+        $(function () {
+
+
+
+        });
+
+        $(document).ready(function () {
+            getTables();
+        });
+
+        var getTables = function () {
+
+            $.ajax({
+                url: "PosOpenTables/GetOpenTables",
+                dataType: "Json",
+                type: "POST",
+                processData: false,
+                beforeSend: function () {
+                    Notiflix.Block.Dots('.tables', 'Yükleniyor');
+                },
+                complete: function () {
+                    Notiflix.Block.Remove("*");
+                },
+                success: function (data) {
+                    if (data.status) {
+                        if (data.data != null) {
+                            $(".tables").html("");
+                            $.each(data.data, function (index, value) {
+                                $(".tables").append(getDiv(value));
+                            });
+                        }
+                    }
+                }
+            });
+        }
+
+
+        function getDiv(value) {
+            var div = "<div class='btn btn-app bg-warning EfaturaPortalApp-datatables-create' style='padding: 9px 5px;' data-id='" + value.id + "' data-endpoint='PosOpenTables/GetOpenTablesDetails'>";
+            div = div + " <span class='badge bg-info'>" + value.toplam.toFixed(2) + " ₺</span>";
+            div = div + "<h5>" + value.masaNo + "</h5>";
+            div = div + "<i>" + value.garson + "</i></div>";
+            return div;
+        }
+
+
+
+
+
+
+    </script>
+
+}

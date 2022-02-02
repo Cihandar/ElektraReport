@@ -1,0 +1,75 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+/*body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}*/
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+/*.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}*/
+
+/* Carousel */
+/*.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}*/
+
+/* Make .svg files in the carousel display properly in older browsers */
+/*.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}*/
+
+#table{
+    width:100% !important;
+}
+
+.select2-selection--single {
+    height: calc(2.25rem + 2px) !important;
+    width: 100% !important;
+}
+
+.LineKdv {
+    background-color: rgb(219, 251, 255);
+}
+
+.LineIskonto {
+    background: rgb(247, 255, 219);
+}
+
+.LineTutar {
+    background-color: rgb(150, 255, 148);
+}
+
+.faturakalemborder {
+    border-top: 2px solid #1360ad !important;
+}
+
+.form-control-label {
+    white-space: nowrap !important;
+}
+
+.gridIslemBtn
+{
+    padding:0px !important;
+    height:25px !important;
+    width:25px !important;
+    font-size:10px;
+    margin-right:2px !important;
+}
+    /* QR code generator */
+    /*#qrCode {
+    margin: 15px;
+}*/
+    /* Hide/rearrange for smaller screens */
+    /*@media screen and (max-width: 767px) {*/
+    /* Hide captions */
+    /*.carousel-caption {
+        display: none;
+    }
+}*/
+
+

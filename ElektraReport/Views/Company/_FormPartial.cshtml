@@ -1,0 +1,76 @@
+﻿@model ElektraReport.Applications.Companys.ViewModels.VM_Company
+@{
+
+    var action = Model == null || Model.Id == Guid.Empty ? "create" : "update";
+    //var areaTypeList = typeof(type).EnumToList().Select(x => new { Value = x.Value, Text = x.Description }).OrderBy(x => x.Text).ToList();
+}
+<div class="modal fade EfaturaPortalApp-forms-modal" id="crud-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <form class="EfaturaPortalApp-forms" id="EfaturaPortalApp-forms" asp-controller="Company" asp-action="@action" enctype="multipart/form-data" data-ajax-begin="EfaturaPortalAppOnBegin" data-ajax-complete="EfaturaPortalAppOnComplete('crud-modal')" data-ajax-failure="EfaturaPortalAppOnFailure" data-ajax-success="EfaturaPortalAppOnSuccess(data, datatableUpdate)" data-ajax="true" data-ajax-method="POST" data-ajax-url="/Company/@action">
+            @Html.AntiForgeryToken()
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title">Firma Bilgileri</h5>
+                    <button type="button" class="close OtelApp-forms-modal-close" data-dismiss="modal" aria-label="Vazgeç"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="hidden">
+                        <input type="hidden" class="form-control" asp-for="Id">
+                    </div>
+                    <!--Ünvanı-->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label asp-for="CompanyName" class="form-control-label">Firma Adı/Ünvanı</label>
+                                <input asp-for="CompanyName" class="form-control" placeholder="" />
+                                <span asp-validation-for="CompanyName" class="text-danger"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--ApiUrl Bilgileri-->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label asp-for="ApiUrl" class="form-control-label">Api Url</label>
+                                <input asp-for="ApiUrl" class="form-control" placeholder="" />
+                                <span asp-validation-for="ApiUrl" class="text-danger"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Elektra Kullanıcı Adı ve Şifre-->
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="Username" class="form-control-label">Elektra Kullanıcı Adı</label>
+                                <input asp-for="Username" class="form-control" placeholder="" autocomplete="new-password" />
+                                <span asp-validation-for="Username" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="Password" class="form-control-label">Elektra Şifre</label>
+                                <input asp-for="Password" type="password" class="form-control" placeholder="" autocomplete="new-password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--ApiKey Bilgileri-->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label asp-for="ApiKey" class="form-control-label">Api Key</label>
+                                <input asp-for="ApiKey" class="form-control" placeholder="" />
+                                <span asp-validation-for="ApiKey" class="text-danger"> </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary OtelApp-forms-modal-close" data-dismiss="modal">Vazgeç</button>
+                    <button type="submit" id="kaydet" class="btn btn-success">Kaydet</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

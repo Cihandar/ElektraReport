@@ -1,0 +1,161 @@
+﻿@model ElektraReport.Models.ApiModels.ApiResults<ElektraReport.Models.ReportModels.PosForecast>;
+
+<div class="row">
+
+
+
+    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+        <div class="info-box bg-gradient-success">
+            <span class="info-box-icon"><i class="far fa fa-cash-register"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Nakit İşlemler</span>
+                <div class="row">
+                    <div class="col-md-4 border-right">
+                        <div class="description-block">
+                            <h5 class="description-header">@Model.Data[0].NakitToplam ₺</h5>
+                            <span class="description-text">Tutar</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4 border-right">
+                        <div class="description-block">
+                            <h5 class="description-header">@Model.Data[0].NakitAdet</h5>
+                            <span class="description-text">Masa Adedi</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                        <div class="description-block">
+                            <h5 class="description-header">@Model.Data[0].NKisi</h5>
+                            <span class="description-text">Kişi Sayısı</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+
+    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+        <div class="info-box bg-gradient-info">
+            <span class="info-box-icon"><i class="far fa-credit-card"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Kredi Kartı İşlemler</span>
+                <div class="row">
+                    <div class="col-md-4 border-right">
+                        <div class="description-block">
+                            <h5 class="description-header">@Model.Data[0].KkToplam ₺</h5>
+                            <span class="description-text">Tutar</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4 border-right">
+                        <div class="description-block">
+                            <h5 class="description-header">@Model.Data[0].KkAdet</h5>
+                            <span class="description-text">Masa Adedi</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                        <div class="description-block">
+                            <h5 class="description-header">@Model.Data[0].KKisi</h5>
+                            <span class="description-text">Kişi Sayısı</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+
+    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+        <div class="info-box bg-gradient-warning">
+            <span class="info-box-icon"><i class="far fa-folder-open"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Cariye Kaldırılanlar</span>
+                <div class="row">
+                    <div class="col-md-4 border-right">
+                        <div class="description-block">
+                            <h5 class="description-header">@Model.Data[0].CariTutar ₺</h5>
+                            <span class="description-text">Tutar</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4 border-right">
+                        <div class="description-block">
+                            <h5 class="description-header">@Model.Data[0].OAdet</h5>
+                            <span class="description-text">Masa Adedi</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                        <div class="description-block">
+                            <h5 class="description-header">@Model.Data[0].OKisi</h5>
+                            <span class="description-text">Kişi Sayısı</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+
+    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+        <div class="info-box bg-gradient-dark">
+            <span class="info-box-icon"><i class="far fa fa-hand-holding-usd"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Toplam Hasılat</span>
+                <div class="row">
+                    <div class="col-md-4 border-right">
+                        <div class="description-block">
+                            <h5 class="description-header">@Math.Round(Model.Data[0].KasaToplam, 2) ₺</h5>
+                            <span class="description-text">Tutar</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4 border-right">
+                        <div class="description-block">
+                            <h5 class="description-header">@Model.Data[0].ToplamAdet</h5>
+                            <span class="description-text">Masa Adedi</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                        <div class="description-block">
+                            <h5 class="description-header">@Model.Data[0].ToplamKisi</h5>
+                            <span class="description-text">Kişi Sayısı</span>
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+
+
+
+</div> 
