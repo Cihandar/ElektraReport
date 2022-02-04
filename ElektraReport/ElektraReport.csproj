@@ -7,21 +7,29 @@
     <Content Update="wwwroot\plugins" CopyToPublishDirectory="Never" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="wwwroot\plugins" CopyToPublishDirectory="Never"/>
+    <None Include="wwwroot\plugins" CopyToPublishDirectory="Never" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="DNTCaptcha.Core" Version="4.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <!--<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.2" />-->
+    <!--<PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />-->
+    <!--<PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />-->
+    <!--<PackageReference Include="Microsoft.NET.Sdk.Razor" Version="3.1.22" />-->
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.1.14" />
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.22" />
+    
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.Extensions" Version="3.1.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Razor" Version="3.1.10" />
+    
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.22" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.22" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.22" />
@@ -29,8 +37,14 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-   
-    <PackageReference Include="System.ServiceModel.Duplex" Version="4.4.*" />
+ 
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" /> 
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.6" /> 
+     <PackageReference Include="Microsoft.NET.Sdk.Razor" Version="3.1.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0">
+      <ExcludeAssets>Build</ExcludeAssets>
+    </PackageReference>
+ <PackageReference Include="System.ServiceModel.Duplex" Version="4.4.*" />
     <PackageReference Include="System.ServiceModel.Http" Version="4.4.*" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.*" />
     <PackageReference Include="System.ServiceModel.Security" Version="4.4.*" />

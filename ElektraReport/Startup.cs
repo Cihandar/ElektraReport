@@ -21,6 +21,7 @@ using ElektraReport.Applications.Companys.Commands;
 using ElektraReport.Interfaces.ElektraApis;
 using ElektraReport.Applications.ElektraApis.Command;
 using DNTCaptcha.Core;
+using ElektraReport.Infrastructures.SignalR;
 
 namespace ElektraReport
 {
@@ -76,66 +77,12 @@ namespace ElektraReport
             });
 
             services.ConfigureApplicationCookie(options =>
-            {
-              //  options.Cookie.HttpOnly = true;
+            { 
                 options.ExpireTimeSpan = TimeSpan.FromDays(365);
                 options.LoginPath = "/Auth/Login";
                 options.LogoutPath = "/Auth/Logout";
-                options.AccessDeniedPath = "/Auth/AccessDenied";
-
-                //options.Cookie = new CookieBuilder
-                //{
-                //    IsEssential = true, // required for auth to work without explicit user consent; adjust to suit your privacy policy,
-                //    Name = ".Ex.Session",
-                //    HttpOnly = false,
-                //    SecurePolicy = CookieSecurePolicy.Always,
-                //    Expiration = TimeSpan.FromDays(365)
-                //};
-
+                options.AccessDeniedPath = "/Auth/AccessDenied"; 
             });
-
-            //services.ConfigureApplicationCookie(options =>
-            //{
-            //    options.Cookie.HttpOnly = true;
-            //    options.ExpireTimeSpan = TimeSpan.FromHours(1);
-            //    options.LoginPath = "/Auth/Login";
-            //    options.LogoutPath = "/Auth/Logout";
-            //    options.AccessDeniedPath = "/Auth/AccessDenied";
-            //    options.Cookie = new CookieBuilder
-            //    {
-            //        IsEssential = true // required for auth to work without explicit user consent; adjust to suit your privacy policy
-            //    };
-            //});
-
-            //Session ý Optimize Et  on
-            //services.AddSession(options =>
-            //{
-            //    options.IdleTimeout = TimeSpan.FromMinutes(20);
-            //    options.Cookie.HttpOnly = false;
-            //    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            //    options.Cookie.Name = ".Seriden.Session";
-            //});
-            //Session ý Optimize Et off
-
-            //Antiforgery Token i Optimize Et  on
-            //services.AddAntiforgery(options =>
-            //{
-            //    options.Cookie.HttpOnly = false;
-            //    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            //    options.Cookie.Name = ".Seriden.Token";
-            //});
-            //Antiforgery Token i Optimize Et off
-
-            //services.Configure<CookiePolicyOptions>(options =>
-            //{
-            //    This lambda determines whether user consent for non - essential cookies is needed for a given request.
-            //     options.CheckConsentNeeded = context => true;
-            //     options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
-            //    options.ConsentCookie.Name = ".Seriden.CookiePolicy"; // 
-
-            //});
-
-
 
             services.AddControllersWithViews().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
 
@@ -145,25 +92,29 @@ namespace ElektraReport
             );
             #endregion
 
-            //    services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            #region SignalR
+            services.AddSignalR();
+            #endregion
 
-            services.AddMvc(option => option.EnableEndpointRouting=false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
-
+        //option => option.EnableEndpointRouting=false
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
 
             app.UseDeveloperExceptionPage();
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //    app.UseHsts();
+            //}
 
             //if (env.IsDevelopment())
             //{
@@ -175,48 +126,51 @@ namespace ElektraReport
             //    await context.Response.WriteAsync("Hello World!");
             //});
 
-            //app.UseRouting();
-            //app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();           
-           // app.UseAuthorization();
+            app.UseCookiePolicy();
             app.UseAuthentication();
+            app.UseAuthorization();
+         
 
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            //});
 
             #region Routing
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //        name: "usernotfound",
-            //        pattern: "/usernotfound",
-            //        defaults: new { controller = "Error", action = "UserNotFound" });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<NewOrders>("/newOrders");
 
-            //    endpoints.MapControllerRoute(
-            //        name: "notfound",
-            //        pattern: "/notfound",
-            //        defaults: new { controller = "Error", action = "NotFound" });
+                endpoints.MapControllerRoute(
+                    name: "usernotfound",
+                    pattern: "/usernotfound",
+                    defaults: new { controller = "Error", action = "UserNotFound" });
 
-            //    endpoints.MapControllerRoute(
-            //        name: "unauthorized",
-            //        pattern: "/unauthorized",
-            //        defaults: new { controller = "Auth", action = "Unauthorized" });
+                endpoints.MapControllerRoute(
+                    name: "notfound",
+                    pattern: "/notfound",
+                    defaults: new { controller = "Error", action = "NotFound" });
 
-            //    endpoints.MapControllerRoute(
-            //        name: "authentication",
-            //        pattern: "/authentication",
-            //        defaults: new { controller = "Auth", action = "Login" });
+                endpoints.MapControllerRoute(
+                    name: "unauthorized",
+                    pattern: "/unauthorized",
+                    defaults: new { controller = "Auth", action = "Unauthorized" });
 
-            //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller=Home}/{action=Index}/{id?}");
-            //});
+                endpoints.MapControllerRoute(
+                    name: "authentication",
+                    pattern: "/authentication",
+                    defaults: new { controller = "Auth", action = "Login" });
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
             #endregion
         }
     }
