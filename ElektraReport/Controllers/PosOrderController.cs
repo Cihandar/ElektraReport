@@ -13,12 +13,12 @@ namespace ElektraReport.Controllers
     public class PosOrderController : BaseController
     {
         IApiRequest _apiRequest;
-        NewOrders _signalRnewOrders;
+ 
        
-        public PosOrderController(IApiRequest apiRequest,NewOrders signalRnewOrders)
+        public PosOrderController(IApiRequest apiRequest)
         {
             _apiRequest = apiRequest;
-            _signalRnewOrders = signalRnewOrders;
+ 
         }
 
         public IActionResult Index()
@@ -35,8 +35,7 @@ namespace ElektraReport.Controllers
         [HttpGet]
         public async Task<IActionResult> NewOrder(Guid Id)
         {
-            _signalRnewOrders.SendNewOrders(Id);
-
+         
             return null;
         }
     }
