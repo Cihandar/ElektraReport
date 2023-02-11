@@ -10,6 +10,7 @@ namespace ElektraReport.Interfaces.Cruds
     public interface IDepremKayitCrud
     {
         Task<ResultJson<DepremKayit>> Add(VM_DepremKayit model);
+        Task<ResultJson<DepremKayit>> Add(List<VM_DepremKayit> model);
         Task<ResultJson<DepremKayit>> Update(VM_DepremKayit model);
         Task<List<VM_DepremKayit>> GetAll(Guid DepremKayitId);
         Task<VM_DepremKayit> GetById(Guid Id);

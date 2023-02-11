@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,6 +56,7 @@ namespace ElektraReport
             #region Applications
             services.AddScoped<IAuthCrud, AuthCrud>();
             services.AddScoped<ICompanyCrud, CompanyCrud>();
+            services.AddScoped<IDepremKayitCrud, DepremKayitCrud>();
             services.AddScoped<IApiRequest, ApiRequest>();
             services.AddScoped<IDepremKayitCrud, DepremKayitCrud>();
             services.AddScoped<ISendEmail, SendEmail>();
