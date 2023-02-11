@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +25,7 @@ using ElektraReport.Infrastructures.SignalR;
 using System.Net.Mail;
 using System.Net;
 using ElektraReport.Applications.DepremKayits.Commands;
+using ElektraReport.Infrastructures.Mail;
 
 namespace ElektraReport
 {
@@ -57,17 +58,20 @@ namespace ElektraReport
             services.AddScoped<ICompanyCrud, CompanyCrud>();
             services.AddScoped<IDepremKayitCrud, DepremKayitCrud>();
             services.AddScoped<IApiRequest, ApiRequest>();
+            services.AddScoped<IDepremKayitCrud, DepremKayitCrud>();
+            services.AddScoped<ISendEmail, SendEmail>();
+            services.AddScoped<IFluentMailCore, FluentMailCore>();
             #endregion
 
             #region Fluent Email
             services
-                .AddFluentEmail("depremyardim@alzeportal.com", "LinkyBar")
-                .AddSmtpSender(new SmtpClient("mail.alzeportal.com", 25)
+                .AddFluentEmail("depremyardim@alzeteknoloji.com", "Alze")
+                .AddSmtpSender(new SmtpClient("mail.alzekteknoloji.com", 25)
                 {
                     EnableSsl = false,
                     UseDefaultCredentials = false,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
-                    Credentials = new NetworkCredential("depremyardim@alzeportal.com", "ds77Y&e8")
+                    Credentials = new NetworkCredential("depremyardim@alzeteknoloji.com", "ds77Y&e8")
                 });
             #endregion
 

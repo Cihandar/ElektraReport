@@ -18,9 +18,10 @@ namespace ElektraReport.Controllers
         IDepremKayitCrud _DepremKayitCrud;
         ICompanyCrud _company;
 
-        public DepremKayitController(IDepremKayitCrud DepremKayitCrud)
+        public DepremKayitController(IDepremKayitCrud DepremKayitCrud, ICompanyCrud company)
         {
             _DepremKayitCrud = DepremKayitCrud;
+            _company = company;
         }
 
         public IActionResult Index()
@@ -38,7 +39,10 @@ namespace ElektraReport.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(Guid Id)
         {
-            var result = new VM_DepremKayit();            
+            var result = new VM_DepremKayit();
+            result.CikisTarihi = DateTime.Now.AddDays(7);
+            result.GirisTarihi = DateTime.Now;
+            result.DogumTarihi = DateTime.Now.AddYears(-20);
             return PartialView("_FormPartial", result);
         }
         [HttpPost]

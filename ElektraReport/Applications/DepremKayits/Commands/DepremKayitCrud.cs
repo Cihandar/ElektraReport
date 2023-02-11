@@ -87,9 +87,9 @@ namespace ElektraReport.Applications.DepremKayits.Commands
             }
         }
 
-        public async Task<List<VM_DepremKayit>> GetAll(Guid DepremKayitId)
+        public async Task<List<VM_DepremKayit>> GetAll(Guid CompanyId)
         {
-            var DepremKayit = _context.DepremKayits.Where(x => x.Id == DepremKayitId).ToList();
+            var DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == CompanyId).OrderBy(x=> x.Odano).ToList();
             var result = _mapper.Map<List<VM_DepremKayit>>(DepremKayit);
             return result;
         }

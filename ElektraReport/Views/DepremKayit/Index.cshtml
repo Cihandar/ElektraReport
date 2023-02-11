@@ -33,6 +33,7 @@
                     Firma Bilgilerim
                 </div>
 
+
                 <div class="card-body">
                     <table class="table table-striped- table-bordered table-hover table-checkable" id="table">
                         <thead>
@@ -44,6 +45,29 @@
                         </thead>
                     </table>
                 </div>
+
+            <div class="card-body">
+                <table class="table table-striped- table-bordered table-hover table-checkable" id="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th width="50">İşlemler</th>
+                            <th>Otel Adı</th>
+                            <th>Odano</th>
+                            <th>T.C. No</th>
+                            <th>Adı</th>
+                            <th>Soyadı</th>
+                            <th>Giriş Tarihi</th>
+                            <th>Çıkış Tarihi</th>
+                            <th>Doğum Tarihi</th>
+                            <th>GsmNo</th>
+                            <th>Geldiği İl</th>
+                            <th>Formu Var mi?</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
 
                 <div class="card-footer">
 
@@ -68,19 +92,46 @@
 
             var clmns = [
                 { "data": null, visible: false },
-                { "data": "companyName" },
                 {
                     data: null,
                     className: "dt-center",
                     targets: -1,
                     orderable: false,
                     render: function (data, type, full, meta) {
-                        return '<button class="btn btn-info font-weight-bold btn-pill mr-2  min-w-90px EfaturaPortalApp-datatables-update"  title="Düzenle" data-endpoint="Company/Update" data-id="' + full.id +'">Güncelle</button>';
+                        return '<button class="btn btn-info font-weight-bold btn-pill mr-2  min-w-90px EfaturaPortalApp-datatables-update"  title="Düzenle" data-endpoint="DepremKayit/Update" data-id="' + full.id + '">Güncelle</button>';
                     }
-                }
+                },
+                { "data": "otelAdi", visible:false },        
+                { "data": "odano" },
+                { "data": "tcNo" },
+                { "data": "adi" },
+                { "data": "soyadi" },               
+                {
+                    "data": "girisTarihi",
+                    "render": function (data, type, row) {
+                        return moment(data).format("DD.MM.YYYY")
+                    }
+                },
+                {
+                    "data": "cikisTarihi",
+                    "render": function (data, type, row) {
+                        return moment(data).format("DD.MM.YYYY")
+                    }
+                },
+                {
+                    "data": "dogumTarihi",
+                    "render": function (data, type, row) {
+                        return moment(data).format("DD.MM.YYYY")
+                    }
+                },
+                { "data": "gsmNo" },
+                { "data": "geldigiIl" },
+                { "data": "formVar" }
+
+        
             ];
 
-            GetData("Company/GetAll", "", "Company/Update", clmns);
+            GetData("DepremKayit/GetAll", "DepremKayit/Create", "DepremKayit/Update", clmns);
 
         };
 
