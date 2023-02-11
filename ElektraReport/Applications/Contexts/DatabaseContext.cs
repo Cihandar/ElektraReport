@@ -19,5 +19,6 @@ namespace ElektraReport.Applications.Context
         }
 
         public DbSet<Company> Companys { get; set; }
+        public DbSet<DepremKayit> DepremKayits{ get; set; }
     }
 }

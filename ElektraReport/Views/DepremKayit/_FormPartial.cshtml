@@ -1,0 +1,144 @@
+﻿@model ElektraReport.Applications.DepremKayits.ViewModels.VM_DepremKayit
+@{
+
+    var action = Model == null || Model.Id == Guid.Empty ? "create" : "update";
+    //var areaTypeList = typeof(type).EnumToList().Select(x => new { Value = x.Value, Text = x.Description }).OrderBy(x => x.Text).ToList();
+}
+<div class="modal fade EfaturaPortalApp-forms-modal" id="crud-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <form class="EfaturaPortalApp-forms" id="EfaturaPortalApp-forms" asp-controller="DepremKayit" asp-action="@action" enctype="multipart/form-data" data-ajax-begin="EfaturaPortalAppOnBegin" data-ajax-complete="EfaturaPortalAppOnComplete('crud-modal')" data-ajax-failure="EfaturaPortalAppOnFailure" data-ajax-success="EfaturaPortalAppOnSuccess(data, datatableUpdate)" data-ajax="true" data-ajax-method="POST" data-ajax-url="/DepremKayit/@action">
+            @Html.AntiForgeryToken()
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title">Firma Bilgileri</h5>
+                    <button type="button" class="close OtelApp-forms-modal-close" data-dismiss="modal" aria-label="Vazgeç"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="hidden">
+                        <input type="hidden" class="form-control" asp-for="Id">
+                    </div>
+                    <!--Ünvanı-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="RezervasyonNo" class="form-control-label">Rezervasyon No</label>
+                                <input asp-for="RezervasyonNo" class="form-control" placeholder="" />
+                                <span asp-validation-for="RezervasyonNo" class="text-danger"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="Odano" class="form-control-label">Odano</label>
+                                <input asp-for="Odano" class="form-control" placeholder="" />
+                                <span asp-validation-for="Odano" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="GirisTarihi" class="form-control-label">Giriş Tarihi</label>
+                                <input asp-for="GirisTarihi" class="form-control" placeholder="" />
+                                <span asp-validation-for="GirisTarihi" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="CikisTarihi" class="form-control-label">Çıkış Tarihi</label>
+                                <input asp-for="CikisTarihi" class="form-control" placeholder="" />
+                                <span asp-validation-for="CikisTarihi" class="text-danger"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--ApiUrl Bilgileri-->
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="TcNo" class="form-control-label">T.c. Kimlik No</label>
+                                <input asp-for="TcNo" class="form-control" placeholder="" />
+                                <span asp-validation-for="TcNo" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="Cinsiyet" class="form-control-label">Cinsiyet</label>
+                                <select asp-for="GeldigiIl">
+                                    <option value="Bay">Bay</option>
+                                    <option value="Bayan">Bayan</option>
+                                </select>
+                                <span asp-validation-for="Cinsiyet" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="Adi" class="form-control-label">Adı</label>
+                                <input asp-for="Adi" class="form-control" placeholder="" />
+                                <span asp-validation-for="Adi" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="Soyadi" class="form-control-label">Soyadı</label>
+                                <input asp-for="Soyadi" class="form-control" placeholder="" />
+                                <span asp-validation-for="Soyadi" class="text-danger"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Elektra Kullanıcı Adı ve Şifre-->
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="DogumTarihi" class="form-control-label">Doğum Tarihi</label>
+                                <input asp-for="DogumTarihi" class="form-control" placeholder="" />
+                                <span asp-validation-for="DogumTarihi" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="GsmNo" class="form-control-label">Gsm No</label>
+                                <input asp-for="GsmNo" class="form-control" placeholder="" />
+                                <span asp-validation-for="GsmNo" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="GeldigiIl" class="form-control-label">Geldiği İl</label>
+                                <select asp-for="GeldigiIl">
+                                    <option value="Adana">Adana</option>
+                                    <option value="Adıyaman">Adıyaman</option>
+                                    <option value="Diyarbakır">Diyarbakır</option>
+                                    <option value="Gaziantep">Gaziantep</option>
+                                    <option value="Şanlıurfa">Şanlıurfa</option>
+                                    <option value="Hatay">Hatay</option>
+                                    <option value="Kahramanmaraş">Kahramanmaraş</option>
+                                    <option value="Osmaniye">Osmaniye</option>
+                                    <option value="Kilis">Kilis</option>
+                                    <option value="Malatya">Malatya</option>
+                                </select>
+                                <span asp-validation-for="GeldigiIl" class="text-danger"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--ApiKey Bilgileri-->
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label asp-for="FormVar" class="form-control-label">Formu Varmı</label>
+                                <select asp-for="FormVar">
+                                    <option value="Var">Var</option>
+                                    <option value="Yok">Yok</option>
+                                </select>
+                                    <span asp-validation-for="FormVar" class="text-danger"> </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary OtelApp-forms-modal-close" data-dismiss="modal">Vazgeç</button>
+                    <button type="submit" id="kaydet" class="btn btn-success">Kaydet</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
