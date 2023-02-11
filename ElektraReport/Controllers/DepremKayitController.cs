@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using ElektraReport.Components;
 using System.IO;
 using ClosedXML.Excel;
+using ElektraReport.Models;
 
 namespace ElektraReport.Controllers
 {
@@ -75,6 +76,23 @@ namespace ElektraReport.Controllers
             return Json(result);
         }
 
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> GetReport(RequestModel model)
+        //{
+        //    var result = await _DepremKayitCrud.GetRoom(CompanyId, model.date, model.date2);
+
+        //    return PartialView("Default", result);
+        //}
+
+        [HttpPost]
+        public async Task<IActionResult> DashboardsHtml()
+        {
+            var result = await _DepremKayitCrud.Dashboards();
+
+            return PartialView("Default", result);
+
         [HttpGet]
         public async Task<IActionResult> Otel(Guid Id)
         {
@@ -87,6 +105,7 @@ namespace ElektraReport.Controllers
         {
             var result = await _DepremKayitCrud.GetAllOtel(companyId,adsoyad,tcno);
             return Json(result);
+
         }
 
         [HttpPost]
