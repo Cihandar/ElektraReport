@@ -146,7 +146,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
             }
 
 
-
+        }
 
 
         public async Task<List<VM_DepremKayit>> GetAllOtel(Guid companyId, string adsoyad, string tcno)

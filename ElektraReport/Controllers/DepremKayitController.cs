@@ -92,6 +92,7 @@ namespace ElektraReport.Controllers
             var result = await _DepremKayitCrud.Dashboards();
 
             return PartialView("Default", result);
+        }
 
         [HttpGet]
         public async Task<IActionResult> Otel(Guid Id)
