@@ -45,7 +45,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
                 List<ResultJson<DepremKayit>> response = new List<ResultJson<DepremKayit>>();
                 foreach (var item in model)
                 {
-                    var snc = await _context.DepremKayits.Where(x => x.Odano == item.Odano && x.TcNo == x.TcNo).FirstOrDefaultAsync();                    
+                    var snc = await _context.DepremKayits.Where(x => x.Odano == item.Odano && x.TcNo == item.TcNo && x.CompanyId == item.CompanyId).FirstOrDefaultAsync();                    
                     var res = snc==null ? await Add(item) : null;
                     response.Add(res);  
                 }

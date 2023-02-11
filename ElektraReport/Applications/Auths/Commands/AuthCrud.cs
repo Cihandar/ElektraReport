@@ -57,10 +57,10 @@ namespace ElektraReport.Applications.Auths.Commands
                     //var resultemail = await _email.Send(model.Email, "Alze E Portal Giriş Bilgileri", "", model.Email, sifre.ToString(), "IlkKayit");
                     if (resultmail.Success)
                     {
-                        return new ResultJson<AppUser> { Success = true, Message = "<h3 class='text-danger'>Şifreniz : " + model.Password + "</h3> <br>Kaydınız yapıldı.Email adresinize gelen şifre ile giriş yapabilirsiniz", Data = user };
+                        return new ResultJson<AppUser> { Success = true, Message = "<h3 class='text-danger'>Şifreniz : " + model.Password + "</h3> <br>Kaydınız yapıldı. Size Vermiş olduğumuz şifreyi not almayı unutmayın. bu şifre ile giriş yapabilirsiniz.", Data = user };
                     }else
                     {
-                        return new ResultJson<AppUser> { Success = false, Message = "Şifresi : " + model.Password + " Kaydınız yapıldı. Fakat Email gönderilemedi. Mail Hata > " + resultmail.Message, Data = user };
+                        return new ResultJson<AppUser> { Success = false, Message = "Şifresi : " + model.Password + " Kaydınız yapıldı.  Size Vermiş olduğumuz şifreyi not almayı unutmayın. bu şifre ile giriş yapabilirsiniz.", Data = user };
                     }                   
                 }
             }
