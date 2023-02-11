@@ -21,7 +21,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label asp-for="RezervasyonNo" class="form-control-label">Rezervasyon No (Koordinasyon Merkezi Rezervasyon Numarası)</label>
+                                <label asp-for="RezervasyonNo" class="form-control-label">Rezervasyon No</label>
                                 <input asp-for="RezervasyonNo" class="form-control" placeholder="" />
                                 <span asp-validation-for="RezervasyonNo" class="text-danger"> </span>
                             </div>
@@ -124,10 +124,10 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label asp-for="FormVar" class="form-control-label">Koordinasyon Merkezi mi Gönderdi</label>
+                                <label asp-for="FormVar" class="form-control-label">Formu Varmı</label>
                                 <select asp-for="FormVar" class="form-control">
-                                    <option value="Evet">Evet</option>
-                                    <option value="Hayır">Hayır</option>
+                                    <option value="Var">Var</option>
+                                    <option value="Yok">Yok</option>
                                 </select>
                                 <span asp-validation-for="FormVar" class="text-danger"> </span>
                             </div>

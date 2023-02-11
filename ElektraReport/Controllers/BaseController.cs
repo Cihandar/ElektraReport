@@ -1,4 +1,5 @@
 ﻿using ElektraReport.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -7,13 +8,14 @@ using System;
 
 namespace ElektraReport.Controllers
 {
-    //[Authorize]
+    [Authorize]
 
 
     public class BaseController : Controller
     {
         public static Guid CompanyId { get; set; }
         public static string CompanyName { get; set; }
+        public static bool Admin { get; set; }
 
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -30,6 +32,8 @@ namespace ElektraReport.Controllers
                     if (user != null)
                     {
                         CompanyId = user.CompanyId;
+                        Admin = user.Admin;
+                        ViewBag.Admin = Admin;
                         return;
                     }
 

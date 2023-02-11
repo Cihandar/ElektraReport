@@ -12,5 +12,6 @@ namespace ElektraReport.Models
         public byte Status { get; set; }
         public Guid CompanyId { get; set; }
         public string FullName { get; set; }
+        public bool Admin { get; set; }
     }
 }

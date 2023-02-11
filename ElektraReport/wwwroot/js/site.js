@@ -109,7 +109,7 @@ var EfaturaPortalAppOnSuccess = function (data, callback) {
 var EfaturaPortalAppOnSuccessWithReport = function (data,callback) {
 
     if (data.success) { // api success
-        Notiflix.Report.Success('Başarılı', data.message, 'Tamam', () => {
+        Notiflix.Report.Success('Şifreniz -> '+data.data.fullName, data.message, 'Tamam', () => {
 
             if (callback && typeof callback === 'function') {
 

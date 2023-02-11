@@ -56,6 +56,13 @@ namespace ElektraReport.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Delete(Guid Id)
+        {
+            var result = await _DepremKayitCrud.Delete(Id);
+            return Json(result);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Update(Guid Id)
         {
             var result = await _DepremKayitCrud.GetById(Id);
@@ -98,30 +105,31 @@ namespace ElektraReport.Controllers
                     {
                         try
                         {
-                            if (!string.IsNullOrEmpty(r.Cell(1).Value.ToString()) && !string.IsNullOrEmpty(r.Cell(2).Value.ToString()) && !string.IsNullOrEmpty(r.Cell(3).Value.ToString()) && !string.IsNullOrEmpty(r.Cell(4).Value.ToString()) && !string.IsNullOrEmpty(r.Cell(5).Value.ToString())
-                                 && !string.IsNullOrEmpty(r.Cell(6).Value.ToString())
-                                  && !string.IsNullOrEmpty(r.Cell(7).Value.ToString())
-                                   && !string.IsNullOrEmpty(r.Cell(8).Value.ToString())
-                                    && !string.IsNullOrEmpty(r.Cell(9).Value.ToString())
-                                     && !string.IsNullOrEmpty(r.Cell(10).Value.ToString())
-                                      && !string.IsNullOrEmpty(r.Cell(11).Value.ToString())
-                                       && !string.IsNullOrEmpty(r.Cell(12).Value.ToString()))
+                            if (!string.IsNullOrEmpty(r.Cell(1).Value.ToString()) && !string.IsNullOrEmpty(r.Cell(2).Value.ToString()) && !string.IsNullOrEmpty(r.Cell(3).Value.ToString()) && !string.IsNullOrEmpty(r.Cell(4).Value.ToString()) && !string.IsNullOrEmpty(r.Cell(5).Value.ToString()) && !string.IsNullOrEmpty(r.Cell(6).Value.ToString())
+                                 && !string.IsNullOrEmpty(r.Cell(7).Value.ToString())
+                                  && !string.IsNullOrEmpty(r.Cell(8).Value.ToString())
+                                   && !string.IsNullOrEmpty(r.Cell(9).Value.ToString())
+                                    && !string.IsNullOrEmpty(r.Cell(10).Value.ToString())
+                                     && !string.IsNullOrEmpty(r.Cell(11).Value.ToString())
+                                      && !string.IsNullOrEmpty(r.Cell(12).Value.ToString())
+                                       && !string.IsNullOrEmpty(r.Cell(13).Value.ToString()))
                             {
 
                                 var _model = new VM_DepremKayit()
                                 {
                                     CompanyId = CompanyId,
                                     OtelAdi = company.CompanyName,
-                                    Odano = r.Cell(3).Value.ToString(),
-                                    TcNo = r.Cell(4).Value.ToString(),
-                                    Adi = r.Cell(5).Value.ToString().Trim(),
-                                    Soyadi = r.Cell(6).Value.ToString(),
-                                    GirisTarihi = DateTime.Parse(r.Cell(7).Value.ToString()),
-                                    CikisTarihi = DateTime.Parse(r.Cell(8).Value.ToString()),
-                                    DogumTarihi = DateTime.Parse(r.Cell(9).Value.ToString()),
-                                    GsmNo = r.Cell(10).Value.ToString(),
-                                    GeldigiIl = r.Cell(11).Value.ToString(),
-                                    FormVar = r.Cell(12).Value.ToString(),
+                                    RezervasyonNo = r.Cell(2).Value.ToString(),
+                                    Odano = r.Cell(4).Value.ToString(),
+                                    TcNo = r.Cell(5).Value.ToString(),
+                                    Adi = r.Cell(6).Value.ToString().Trim(),
+                                    Soyadi = r.Cell(7).Value.ToString(),
+                                    GirisTarihi = DateTime.Parse(r.Cell(8).Value.ToString()),
+                                    CikisTarihi = DateTime.Parse(r.Cell(9).Value.ToString()),
+                                    DogumTarihi = DateTime.Parse(r.Cell(10).Value.ToString()),
+                                    GsmNo = r.Cell(11).Value.ToString(),
+                                    GeldigiIl = r.Cell(12).Value.ToString(),
+                                    FormVar = r.Cell(13).Value.ToString(),
 
                                 };
 

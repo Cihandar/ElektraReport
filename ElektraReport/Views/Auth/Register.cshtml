@@ -34,7 +34,7 @@
                     <label asp-for="Company.CompanyName" class="form-control-label">Otel Adı</label>
                     <span asp-validation-for="Company.CompanyName" class="text-danger"> </span>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Firma Ünvanı" asp-for="Company.CompanyName">
+                        <input type="text" class="form-control" placeholder="Otel Adı" asp-for="Company.CompanyName">
 
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -68,28 +68,28 @@
         </div>*@
 
 
-                    @*<label asp-for="FullName">Yetkili Kişi Ad Soyad</label>
+                    <label asp-for="FullName">Yetkili Kişi Ad Soyad</label>
                     <span asp-validation-for="FullName" class="text-danger"> </span>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Yetkili Kişi Ad Soyad" asp-for="FullName">
+                        <input type="text" class="form-control" placeholder="Yetkili Kişi Ad Soyad" asp-for="Company.Name">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user-alt"></span>
                             </div>
                         </div>
-                    </div>*@
+                    </div> 
 
 
-                    @*<label asp-for="Firma.Telefon">Telefon</label>
-        <span asp-validation-for="Firma.Telefon" class="text-danger"> </span>
+                     <label asp-for="Company.Phone">Telefon</label>
+        <span asp-validation-for="Company.Phone" class="text-danger"> </span>
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Telefon" asp-for="Firma.Telefon">
+            <input type="text" class="form-control" placeholder="Telefon" asp-for="Company.Phone">
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-mobile-alt"></span>
                 </div>
             </div>
-        </div>*@
+        </div> 
 
 
                     <label asp-for="Email">Email</label>

@@ -7,11 +7,16 @@
 <div class="row">
     <div class="col-md-12 pb-2">
         <div class="row">
+            <span class="text-danger font-weight-bold">Excel Aktar</span>
+        </div>
+        <div class="row">
             @*<button type="button" class="btn btn-warning mr-1">Excelden Yükle</button>
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Excelden Yükle</label>
                     <input class="form-control" type="file" id="formFile">
                 </div>*@
+        
+            
             <div class="col-md-3">
                 <input class="form-control" type="file" id="excelfile">
             </div>
@@ -49,7 +54,7 @@
                             <th>Doğum Tarihi</th>
                             <th>GsmNo</th>
                             <th>Geldiği İl</th>
-                            <th>Formu Var mi?</th>
+                            <th>Koor. Gönderildi ?</th>
                         </tr>
                     </thead>
                 </table>
@@ -84,7 +89,13 @@
                     targets: -1,
                     orderable: false,
                     render: function (data, type, full, meta) {
-                        return '<button class="btn btn-info font-weight-bold btn-pill mr-2  min-w-90px EfaturaPortalApp-datatables-update"  title="Düzenle" data-endpoint="DepremKayit/Update" data-id="' + full.id + '">Güncelle</button>';
+                        var btns = '<div class="btn-group btn-group-sm">';
+                        btns = btns + '<button class="btn btn-info font-weight-bold btn-pill mr-2  min-w-90px EfaturaPortalApp-datatables-update" title="Düzenle" data-endpoint="DepremKayit/Update" data-id="' + full.id + '"><i class="fa far fa-edit"></i></button>' ;
+                        btns = btns + '<button class="btn btn-danger font-weight-bold btn-pill mr-2  min-w-90px EfaturaPortalApp-Delete" title="Sil"  data-id="' + full.id + '"><i class="fa far fa-trash"></i></button>';
+                        btns = btns + '</div>';
+
+                        return btns;
+                           
                     }
                 },
                 { "data": "otelAdi", visible:false },        
@@ -124,6 +135,41 @@
         function datatableUpdate() {
             GetDataTable();
         }
+
+
+        $(document).on("click", ".EfaturaPortalApp-Delete", function () {
+            Notiflix.Confirm.Show(
+                'Emin misiniz ?',
+                'Seçili Kayıt Silenecek. Emin misiniz ? ',
+                'Evet Emin',
+                'Vazgeç',
+                () => {
+                    $.ajax({
+                        beforeSend: function () {
+                            Notiflix.Block.Hourglass('.card', 'Kayıt Siliniyor. Lütfen Bekleyin..');
+                        },
+                        url: "DepremKayit/Delete?Id=" + $(this).data("id"),
+                        type: "get",
+                        processData: false,
+                        success: function (data) {
+                            if (data) {
+                            
+                                    Notiflix.Notify.Warning("Kayıt Silindi..");
+
+                            
+                            } else {
+                                Notiflix.Report.Failure("İşlem Başarısız", "Silinemedi", "Kapat");
+                            }
+                        },
+                        complete: function () {
+                            Notiflix.Block.Remove("*");
+                            GetDataTable();
+
+                        }
+                    });
+                }
+            );
+        });
 
 
         function doupload() {

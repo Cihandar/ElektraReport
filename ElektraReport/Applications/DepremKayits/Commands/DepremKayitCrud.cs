@@ -89,22 +89,32 @@ namespace ElektraReport.Applications.DepremKayits.Commands
 
         public async Task<List<VM_DepremKayit>> GetAll(Guid CompanyId)
         {
-            var DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == CompanyId).OrderBy(x=> x.Odano).ToList();
+            var DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == CompanyId && (x.IsDeleted==null || x.IsDeleted!=true) ).OrderBy(x=> x.Odano).ToList();
             var result = _mapper.Map<List<VM_DepremKayit>>(DepremKayit);
             return result;
         }
         public async Task<VM_DepremKayit> GetById(Guid Id)
         {
-            var DepremKayit = _context.DepremKayits.Where(x => x.Id == Id).FirstOrDefault();
+            var DepremKayit = _context.DepremKayits.Where(x => x.Id == Id && (x.IsDeleted == null || x.IsDeleted != true)).FirstOrDefault();
             var result = _mapper.Map<VM_DepremKayit>(DepremKayit);
             return result;
         }
 
+        public async Task<bool> Delete(Guid Id)
+        {
+            try
+            {
+                var depremKayit = _context.DepremKayits.FirstOrDefault(x => x.Id == Id);
+                depremKayit.IsDeleted = true;
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
 
-
-
-
-
-
+                return false;
+            }
+ 
+        }
     }
 }

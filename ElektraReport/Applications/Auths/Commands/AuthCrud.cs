@@ -36,7 +36,7 @@ namespace ElektraReport.Applications.Auths.Commands
         {
             var usercheck = await IsEmailRegistered(model.Email);
             var rnd = new Random();
-            var sifre = rnd.Next(100000, 999999);
+            var sifre = rnd.Next(1000, 9999);
             model.Password = sifre.ToString();
             if (usercheck) return new ResultJson<AppUser> { Success = false, Message = "Girmiş olduğunuz mail adresi sistemde kayıtlıdır. Şifremi unuttum diyerek işleminize devam edebilirsiniz." };
             var resultCompany = await _company.Add(model.Company);
@@ -47,16 +47,17 @@ namespace ElektraReport.Applications.Auths.Commands
                     Email = model.Email,
                     UserName = model.Email,
                     CompanyId = resultCompany.Data.Id,
+                    FullName = model.Password
                 };
                 var resultuser = await _userManager.CreateAsync(user, model.Password);
                 if (resultuser.Succeeded)
                 {
-                  //  var resultmail = await _mail.Send(model.Email, "", "", model.Email, model.Password, "");
-                    var resultmail = await _fluentmail.Send(model.Email, model.Password);
+                    var resultmail = await _mail.Send(model.Email, "", "", model.Email, model.Password, "");
+                   // var resultmail = await _fluentmail.Send(model.Email, model.Password);
                     //var resultemail = await _email.Send(model.Email, "Alze E Portal Giriş Bilgileri", "", model.Email, sifre.ToString(), "IlkKayit");
                     if (resultmail.Success)
                     {
-                        return new ResultJson<AppUser> { Success = true, Message = "Kaydınız yapıldı.Email adresinize gelen şifre ile giriş yapabilirsiniz", Data = user };
+                        return new ResultJson<AppUser> { Success = true, Message = "<h3 class='text-danger'>Şifreniz : " + model.Password + "</h3> <br>Kaydınız yapıldı.Email adresinize gelen şifre ile giriş yapabilirsiniz", Data = user };
                     }else
                     {
                         return new ResultJson<AppUser> { Success = false, Message = "Şifresi : " + model.Password + " Kaydınız yapıldı. Fakat Email gönderilemedi. Mail Hata > " + resultmail.Message, Data = user };

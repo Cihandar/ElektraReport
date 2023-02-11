@@ -15,5 +15,6 @@ namespace ElektraReport.Interfaces.Cruds
         Task<List<VM_DepremKayit>> GetAll(Guid DepremKayitId);
         Task<VM_DepremKayit> GetById(Guid Id);
 
+        Task<bool> Delete(Guid Id);
     }
 }

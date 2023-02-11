@@ -16,6 +16,8 @@ namespace ElektraReport.Applications.Companys.ViewModels
         public string ApiKey { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string Phone { get; set; }
+        public string Name { get; set; }
 
         public void CreateMappings(Profile configuration)
         {
