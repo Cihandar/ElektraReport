@@ -43,6 +43,8 @@ namespace ElektraReport.Controllers
                 else
                 {
                     CompanyId = user.CompanyId;
+                    Admin = user.Admin;
+                    ViewBag.Admin = Admin;
                     //ViewBag.PermissionEnum = user.Yetki;
                     //ViewBag.Admin = user.admin;
                     //admin = user.admin;

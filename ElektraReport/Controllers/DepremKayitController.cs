@@ -75,6 +75,20 @@ namespace ElektraReport.Controllers
             return Json(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Otel(Guid Id)
+        {
+            var result = await _company.GetAll(CompanyId);
+            return View("OtelKayitlari", result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllOtel(Guid companyId,string adsoyad,string tcno)
+        {
+            var result = await _DepremKayitCrud.GetAllOtel(companyId,adsoyad,tcno);
+            return Json(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddWithExcel(IFormFile file)
         {

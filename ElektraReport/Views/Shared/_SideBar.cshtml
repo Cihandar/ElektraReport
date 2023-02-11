@@ -1,21 +1,21 @@
 ﻿<aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/" class="brand-link" style="text-align:center">
-        <img src="~/images/logoElektraReport.png" alt="Alze E Portal Logo" >
- 
+        <img src="~/images/logoElektraReport.png" alt="Alze E Portal Logo">
+
     </a>
-    
+
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
         @*<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="~/plugins/adminLte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-            </div>
-            <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
-            </div>
-        </div>*@
+                <div class="image">
+                    <img src="~/plugins/adminLte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                    <a href="#" class="d-block">Alexander Pierce</a>
+                </div>
+            </div>*@
 
         <!-- SidebarSearch Form -->
         <div class="form-inline">
@@ -33,133 +33,40 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
-                @{
-                    if (ViewBag.Admin!=null && ViewBag.Admin)
+                with font-awesome or any other icon font library -->
+
+                @if (ViewBag.Admin!=null && ViewBag.Admin==true)
                     {
-                        <li class="nav-item">
-                            <a href="/DepremKayit/Otel" class="nav-link">
-                                <i class="nav-icon fas fa-chart-line"></i>
-                                <p>
-                                    Rezervasyon Kayıtları
-                                </p>
-                            </a>
-                        </li>
+                <li class="nav-item">
+                    <a href="/DepremKayit/Otel" class="nav-link">
+                        <i class="nav-icon fas fa-chart-line"></i>
+                        <p>
+                            Rezervasyon Kayıtları
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Company" class="nav-link">
+                        <i class="nav-icon fas fa-chart-line"></i>
+                        <p>
+                            Kayıt Olan Oteller
+                        </p>
+                    </a>
+                </li>
                     }
                     else
                     {
-                        <li class="nav-item">
-                            <a href="/DepremKayit" class="nav-link">
-                                <i class="nav-icon fas fa-chart-line"></i>
-                                <p>
-                                    Rezervasyon Kayıt
-                                </p>
-                            </a>
-                        </li>
+                <li class="nav-item">
+                    <a href="/DepremKayit" class="nav-link">
+                        <i class="nav-icon fas fa-chart-line"></i>
+                        <p>
+                            Rezervasyon Kayıt
+                        </p>
+                    </a>
+                </li>
                     }
-                }
 
 
-                @*<li class="nav-item">
-            <a href="/PosOpenTables" class="nav-link">
-                <i class="nav-icon fas fa fa-apple-alt"></i>
-                <p>
-                    Açık Masalar
-                </p>
-            </a>
-        </li>*@
-
-                <!--<li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-clipboard-list"></i>
-        <p>
-            Tanımlar
-            <i class="right fas fa-angle-left"></i>
-        </p>
-    </a>
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="/Company" class="nav-link">
-                <i class="far fa-building nav-icon"></i>
-                <p>Firmalarım</p>
-            </a>
-        </li>
-    </ul>-->
-                @*<ul class="nav nav-treeview">
-            <li class="nav-item">
-                <a href="/Kullanicilar" class="nav-link">
-                    <i class="far fa-user nav-icon"></i>
-                    <p>Kullanıcılar</p>
-                </a>
-            </li>
-        </ul>*@
-                <!--</li>-->
-                @*<li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-receipt"></i>
-                <p>
-                    Pos Raporları
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/PosSalesReport" class="nav-link">
-                        <i class="far fa fa-file-invoice nav-icon"></i>
-                        <p>Satış Raporu</p>
-                    </a>
-                </li>
-            </ul>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/PosDiscountReport" class="nav-link">
-                        <i class="far fa fa-file-invoice nav-icon"></i>
-                        <p>İndirim Raporu</p>
-                    </a>
-                </li>
-            </ul>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/PosNotPayReport" class="nav-link">
-                        <i class="far fa fa-file-invoice nav-icon"></i>
-                        <p>Ödenmez Raporu</p>
-                    </a>
-                </li>
-            </ul>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/PosNotPayDetailReport" class="nav-link">
-                        <i class="far fa fa-file-invoice nav-icon"></i>
-                        <p>Ödenmez Detay Raporu</p>
-                    </a>
-                </li>
-            </ul>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/PosCreditReport" class="nav-link">
-                        <i class="far fa fa-file-invoice nav-icon"></i>
-                        <p>Açık Hesap Raporu</p>
-                    </a>
-                </li>
-            </ul>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/PosCancelReport" class="nav-link">
-                        <i class="far fa fa-file-invoice nav-icon"></i>
-                        <p>İptal Raporu</p>
-                    </a>
-                </li>
-            </ul>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/PosProductSalesReport" class="nav-link">
-                        <i class="far fa fa-file-invoice nav-icon"></i>
-                        <p>Ürün Satış Analizi</p>
-                    </a>
-                </li>
-            </ul>
-
-        </li>*@
 
                 <li class="nav-item">
                     <a href="Auth/Logout" class="nav-link">

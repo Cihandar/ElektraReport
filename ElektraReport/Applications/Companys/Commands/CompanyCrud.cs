@@ -62,7 +62,7 @@ namespace ElektraReport.Applications.Companys.Commands
 
         public async Task<List<VM_Company>> GetAll(Guid CompanyId)
         {
-            var company = _context.Companys.Where(x => x.Id == CompanyId).ToList();
+            var company = _context.Companys.Where(x => x.IsDeleted == null || x.IsDeleted!=true).OrderBy(x=> x.CompanyName).ToList();
             var result = _mapper.Map<List<VM_Company>>(company);
             return result;
         }
