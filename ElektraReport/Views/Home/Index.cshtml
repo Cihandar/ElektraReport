@@ -1,37 +1,42 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<div class="row">
-    <div class="col-12">
-        <div class="card direct-chat direct-chat-primary">
-            <div class="card-header ui-sortable-handle" style="cursor: move;">
-                <div class="row">
-                    <div class="col-md-5">
-                        <form id="filtrealani" action="javascript:void(0);">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label class="form-control-label">OTELLER</label>
+
+@if (ViewBag.Admin == true)
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card direct-chat direct-chat-primary">
+                <div class="card-header ui-sortable-handle" style="cursor: move;">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <form id="filtrealani" action="javascript:void(0);">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="form-control-label">OTELLER</label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
+
                     </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-3 Forecast">
 
                 </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body p-3 Forecast">
+                <!-- /.card-body -->
+                <div class="card-footer">
 
+                </div>
+                <!-- /.card-footer-->
             </div>
-            <!-- /.card-body -->
-            <div class="card-footer">
-
-            </div>
-            <!-- /.card-footer-->
         </div>
     </div>
-</div>
+}
+
 @section css
 {
     <link href="~/plugins/adminLte/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
@@ -99,7 +104,9 @@
         });
 
         $(document).ready(function () {
-            getData("DepremKayit/DashboardsHtml");
+            var isAdmin = '@ViewBag.Admin';
+            if (isAdmin ==='True')
+                getData("DepremKayit/DashboardsHtml");
 
         });
 
