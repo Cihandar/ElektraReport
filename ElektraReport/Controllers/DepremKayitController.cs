@@ -97,14 +97,16 @@ namespace ElektraReport.Controllers
         [HttpGet]
         public async Task<IActionResult> Otel(Guid Id)
         {
+            if (!Admin) return Redirect("/Auth/Logout");
             var result = await _company.GetAll(CompanyId);
             return View("OtelKayitlari", result);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllOtel(Guid companyId,string adsoyad,string tcno)
+        public async Task<IActionResult> GetAllOtel(Guid companyId, string adsoyad, string tcno)
         {
-            var result = await _DepremKayitCrud.GetAllOtel(companyId,adsoyad,tcno);
+            if (!Admin) return Redirect("/Auth/Logout");
+            var result = await _DepremKayitCrud.GetAllOtel(companyId, adsoyad, tcno);
             return Json(result);
 
         }
@@ -139,14 +141,12 @@ namespace ElektraReport.Controllers
                     {
                         try
                         {
-                            if (!string.IsNullOrEmpty(r.Cell(1).Value.ToString()) && !string.IsNullOrEmpty(r.Cell(2).Value.ToString()) && !string.IsNullOrEmpty(r.Cell(3).Value.ToString()) && !string.IsNullOrEmpty(r.Cell(4).Value.ToString()) && !string.IsNullOrEmpty(r.Cell(5).Value.ToString()) && !string.IsNullOrEmpty(r.Cell(6).Value.ToString())
-                                 && !string.IsNullOrEmpty(r.Cell(7).Value.ToString())
-                                  && !string.IsNullOrEmpty(r.Cell(8).Value.ToString())
-                                   && !string.IsNullOrEmpty(r.Cell(9).Value.ToString())
-                                    && !string.IsNullOrEmpty(r.Cell(10).Value.ToString())
-                                     && !string.IsNullOrEmpty(r.Cell(11).Value.ToString())
-                                      && !string.IsNullOrEmpty(r.Cell(12).Value.ToString())
-                                       && !string.IsNullOrEmpty(r.Cell(13).Value.ToString()))
+                            if (   !string.IsNullOrEmpty(r.Cell(4).Value.ToString())
+                                && !string.IsNullOrEmpty(r.Cell(5).Value.ToString())
+                                && !string.IsNullOrEmpty(r.Cell(6).Value.ToString())
+                                && !string.IsNullOrEmpty(r.Cell(7).Value.ToString())
+                                && !string.IsNullOrEmpty(r.Cell(8).Value.ToString())
+                                && !string.IsNullOrEmpty(r.Cell(9).Value.ToString()))
                             {
 
                                 var _model = new VM_DepremKayit()
@@ -163,7 +163,7 @@ namespace ElektraReport.Controllers
                                     DogumTarihi = DateTime.Parse(r.Cell(10).Value.ToString()),
                                     GsmNo = r.Cell(11).Value.ToString(),
                                     GeldigiIl = r.Cell(12).Value.ToString(),
-                                    FormVar = r.Cell(13).Value.ToString(),
+                                    FormVar = r.Cell(13).Value.ToString() ?? "Hayır",
 
                                 };
 

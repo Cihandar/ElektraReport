@@ -19,12 +19,14 @@ namespace ElektraReport.Controllers
 
         public IActionResult Index()
         {
+            if (!Admin) return Redirect("/Auth/Logout");
             return View();
         }
 
         [HttpGet]
         public async Task<JsonResult> GetAll()
         {
+          
             var result = await _companyCrud.GetAll(CompanyId);
             return Json(result);
         }

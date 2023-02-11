@@ -23,25 +23,25 @@ else
 
         @foreach (var item in Model)
         {
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+            <div class="col-xl-2 col-lg-4 col-md-5 col-sm-6 col-12">
                 <div class="info-box bg-gradient-primary">
-                    <span class="info-box-icon"><i class="far fa fa-building"></i></span>
+                    @*<span class="info-box-icon"><i class="far fa fa-building"></i></span>*@
 
                     <div class="info-box-content">
-                        <span class="info-box-text"></span>
-                        <div class="row">
-                            <div class="col-md-4 border-right">
+                        <span class="info-box-text text-center">@item.Name</span>
+                        <div class="row text-center">
+                            <!--<div class="col-md-4 border-right">
                                 <div class="description-block">
                                     <span class="description-text"></span>
-                                    <h5 class="description-header">@item.Name</h5>
+                                    <h5 class="description-header"></h5>
 
-                                </div>
+                                </div>-->
                                 <!-- /.description-block -->
-                            </div>
+                            <!--</div>-->
                             <!-- /.col -->
-                            <div class="col-md-4 border-right">
+                            <div class="col-md-6 border-right">
                                 <div class="description-block">
-                                    <span class="description-text">Toplam Oda Adedi</span>
+                                    <span class="description-header">Oda</span>
                                     <h5 class="description-header">@item.RoomTotal</h5>
 
                                 </div>
@@ -49,9 +49,9 @@ else
                             </div>
                             <!-- /.col -->
                             <!-- /.col -->
-                            <div class="col-md-4 border-right">
+                            <div class="col-md-6">
                                 <div class="description-block">
-                                    <span class="description-text">Toplam Kişi Adedi</span>
+                                    <span class="description-header">Kişi</span>
                                     <h5 class="description-header">@item.UserTotal</h5>
 
                                 </div>
