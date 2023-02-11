@@ -1,4 +1,5 @@
-﻿using FluentEmail.Core;
+﻿using ElektraReport.Models.ResultModels;
+using FluentEmail.Core;
 using FluentEmail.Smtp;
 using System;
 using System.Collections.Generic;
@@ -18,18 +19,18 @@ namespace ElektraReport.Infrastructures.Mail
             _fluentEmail = fluentEmail;
         }
 
-        public async Task Send(string email,string code)
+        public async Task<ResultJson2> Send(string email,string code)
         {
             try
             {
-                var  fluentEmail = Email
-                .From("depremyardim@alzeportal")
+                var  fluentEmail = await Email
+                .From("depremyardim@alzeteknoloji.com")
                 .To(email)
                 .Subject("Rezervasyon Kayit İçin Giriş Bilgileri")
                 .Tag("Rezervasyon Kayit İçin Giriş Bilgileri")
                 .Body("Kullanıcı Adınız : " + email +"<br> Şifre : "+code+"<br> Link:http://deprem.alzeportal.com")
                 .SendAsync();
-
+                return new ResultJson2 { Success =true };
                 //var sender = new SmtpSender(() => new SmtpClient("smtp.gmail.com")
                 //{
                 //    UseDefaultCredentials = false,
@@ -50,7 +51,7 @@ namespace ElektraReport.Infrastructures.Mail
             }
             catch (Exception ex)
             {
-
+                return new ResultJson2 { Success = false, Message = ex.Message };
             }         
         }
     }

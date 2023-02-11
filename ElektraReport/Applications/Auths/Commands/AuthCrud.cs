@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ElektraReport.Infrastructures.Mail;
 
 namespace ElektraReport.Applications.Auths.Commands
 {
@@ -18,18 +19,25 @@ namespace ElektraReport.Applications.Auths.Commands
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private ICompanyCrud _company;
+        private ISendEmail _mail;
+        private IFluentMailCore  _fluentmail;
 
-        public AuthCrud(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager,DatabaseContext context, ICompanyCrud company)
+        public AuthCrud(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, DatabaseContext context, ICompanyCrud company, ISendEmail mail, IFluentMailCore fluentmail)
         {
             _context = context;
             _signInManager = signInManager;
             _userManager = userManager;
             _company = company;
+            _mail = mail;
+            _fluentmail = fluentmail;
         }
 
         public async Task<ResultJson<AppUser>> Register(VM_AuthRegister model)
         {
             var usercheck = await IsEmailRegistered(model.Email);
+            var rnd = new Random();
+            var sifre = rnd.Next(100000, 999999);
+            model.Password = sifre.ToString();
             if (usercheck) return new ResultJson<AppUser> { Success = false, Message = "Girmiş olduğunuz mail adresi sistemde kayıtlıdır. Şifremi unuttum diyerek işleminize devam edebilirsiniz." };
             var resultCompany = await _company.Add(model.Company);
             if (resultCompany.Success)
@@ -43,8 +51,16 @@ namespace ElektraReport.Applications.Auths.Commands
                 var resultuser = await _userManager.CreateAsync(user, model.Password);
                 if (resultuser.Succeeded)
                 {
+                  //  var resultmail = await _mail.Send(model.Email, "", "", model.Email, model.Password, "");
+                    var resultmail = await _fluentmail.Send(model.Email, model.Password);
                     //var resultemail = await _email.Send(model.Email, "Alze E Portal Giriş Bilgileri", "", model.Email, sifre.ToString(), "IlkKayit");
-                    return new ResultJson<AppUser> { Success = true, Message = "Kaydınız yapıldı.Email adresinize gelen şifre ile giriş yapabilirsiniz", Data = user };
+                    if (resultmail.Success)
+                    {
+                        return new ResultJson<AppUser> { Success = true, Message = "Kaydınız yapıldı.Email adresinize gelen şifre ile giriş yapabilirsiniz", Data = user };
+                    }else
+                    {
+                        return new ResultJson<AppUser> { Success = false, Message = "Şifresi : " + model.Password + " Kaydınız yapıldı. Fakat Email gönderilemedi. Mail Hata > " + resultmail.Message, Data = user };
+                    }                   
                 }
             }
             else

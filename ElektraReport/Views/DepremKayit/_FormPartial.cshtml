@@ -38,45 +38,38 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label asp-for="GirisTarihi" class="form-control-label">Giriş Tarihi</label>
-                                <input asp-for="GirisTarihi" class="form-control" placeholder="" />
+                                <input asp-for="GirisTarihi" type="text" class="form-control" placeholder="" id="TarihGiris" />
                                 <span asp-validation-for="GirisTarihi" class="text-danger"> </span>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label asp-for="CikisTarihi" class="form-control-label">Çıkış Tarihi</label>
-                                <input asp-for="CikisTarihi" class="form-control" placeholder="" />
+                                <input asp-for="CikisTarihi" type="text" class="form-control" placeholder="" id="TarihCikis" />
                                 <span asp-validation-for="CikisTarihi" class="text-danger"> </span>
                             </div>
                         </div>
                     </div>
                     <!--ApiUrl Bilgileri-->
                     <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label asp-for="TcNo" class="form-control-label">T.c. Kimlik No</label>
-                                <input asp-for="TcNo" class="form-control" placeholder="" />
-                                <span asp-validation-for="TcNo" class="text-danger"> </span>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label asp-for="Cinsiyet" class="form-control-label">Cinsiyet</label>
-                                <select asp-for="GeldigiIl">
+                                <select asp-for="Cinsiyet" class="form-control">
                                     <option value="Bay">Bay</option>
                                     <option value="Bayan">Bayan</option>
                                 </select>
                                 <span asp-validation-for="Cinsiyet" class="text-danger"> </span>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label asp-for="Adi" class="form-control-label">Adı</label>
                                 <input asp-for="Adi" class="form-control" placeholder="" />
                                 <span asp-validation-for="Adi" class="text-danger"> </span>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label asp-for="Soyadi" class="form-control-label">Soyadı</label>
                                 <input asp-for="Soyadi" class="form-control" placeholder="" />
@@ -86,24 +79,35 @@
                     </div>
                     <!--Elektra Kullanıcı Adı ve Şifre-->
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="TcNo" class="form-control-label">T.c. Kimlik No</label>
+                                <input asp-for="TcNo" class="form-control" placeholder="" />
+                                <span asp-validation-for="TcNo" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label asp-for="DogumTarihi" class="form-control-label">Doğum Tarihi</label>
-                                <input asp-for="DogumTarihi" class="form-control" placeholder="" />
+                                <input asp-for="DogumTarihi" type="text" class="form-control" placeholder="" id="TarihDogum" />
                                 <span asp-validation-for="DogumTarihi" class="text-danger"> </span>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label asp-for="GsmNo" class="form-control-label">Gsm No</label>
                                 <input asp-for="GsmNo" class="form-control" placeholder="" />
                                 <span asp-validation-for="GsmNo" class="text-danger"> </span>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+
+                    </div>
+                    <!--ApiKey Bilgileri-->
+                    <div class="row">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label asp-for="GeldigiIl" class="form-control-label">Geldiği İl</label>
-                                <select asp-for="GeldigiIl">
+                                <select asp-for="GeldigiIl" class="form-control">
                                     <option value="Adana">Adana</option>
                                     <option value="Adıyaman">Adıyaman</option>
                                     <option value="Diyarbakır">Diyarbakır</option>
@@ -118,17 +122,14 @@
                                 <span asp-validation-for="GeldigiIl" class="text-danger"> </span>
                             </div>
                         </div>
-                    </div>
-                    <!--ApiKey Bilgileri-->
-                    <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label asp-for="FormVar" class="form-control-label">Formu Varmı</label>
-                                <select asp-for="FormVar">
+                                <select asp-for="FormVar" class="form-control">
                                     <option value="Var">Var</option>
                                     <option value="Yok">Yok</option>
                                 </select>
-                                    <span asp-validation-for="FormVar" class="text-danger"> </span>
+                                <span asp-validation-for="FormVar" class="text-danger"> </span>
                             </div>
                         </div>
                     </div>
@@ -141,4 +142,51 @@
         </form>
     </div>
 </div>
+
+
+<script>
+    $(function () {
+        //Date range picker with time picker
+        $('input[id*="Tarih"').daterangepicker({
+            singleDatePicker: true,
+            timePicker: true,
+            autoApply: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 30,
+            locale: {
+                format: 'DD.MM.YYYY',
+                applyLabel: "Uygula",
+                cancelLabel: "İptal",
+                daysOfWeek: [
+                    "Pz",
+                    "Pts",
+                    "Sa",
+                    "Çar",
+                    "Per",
+                    "Cu",
+                    "Cts"
+                ],
+                monthNames: [
+                    "Ocak",
+                    "Şubat",
+                    "Mart",
+                    "Nisan",
+                    "Mayıs",
+                    "Haziran",
+                    "Temmuz",
+                    "Ağustos",
+                    "Eylül",
+                    "Ekim",
+                    "Kasım",
+                    "Aralık"
+                ],
+                firstDay: 1
+            }
+        },
+            function (start, end, label) {
+            })
+    });
+
+
+</script>
 
