@@ -24,6 +24,7 @@ using DNTCaptcha.Core;
 using ElektraReport.Infrastructures.SignalR;
 using System.Net.Mail;
 using System.Net;
+using ElektraReport.Applications.DepremKayits.Commands;
 
 namespace ElektraReport
 {
@@ -54,6 +55,7 @@ namespace ElektraReport
             #region Applications
             services.AddScoped<IAuthCrud, AuthCrud>();
             services.AddScoped<ICompanyCrud, CompanyCrud>();
+            services.AddScoped<IDepremKayitCrud, DepremKayitCrud>();
             services.AddScoped<IApiRequest, ApiRequest>();
             #endregion
 

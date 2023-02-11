@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using ElektraReport.Applications.Auths.ViewModels;
 using ElektraReport.Applications.Context;
 using ElektraReport.Applications.DepremKayits.ViewModels;
 using ElektraReport.Interfaces.Cruds;
 using ElektraReport.Models;
 using ElektraReport.Models.ResultModels;
-using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +29,28 @@ namespace ElektraReport.Applications.DepremKayits.Commands
                 _context.DepremKayits.Add(DepremKayit);
                 _context.SaveChanges();
                 return new ResultJson<DepremKayit> { Success = true, Message = "Rezervasyon kayıt edildi.", Data = DepremKayit };
+            }
+            catch (Exception ex)
+            {
+                return new ResultJson<DepremKayit> { Success = false, Message = "Hata : " + ex.Message };
+            }
+
+        }
+
+        public async Task<ResultJson<DepremKayit>> Add(List<VM_DepremKayit> model)
+        {
+            try
+            {
+                List<ResultJson<DepremKayit>> response = new List<ResultJson<DepremKayit>>();
+                foreach (var item in model)
+                {
+                    var res = await Add(item);
+                    response.Add(res);
+                    if (!res.Success)
+                        return res;
+                }
+
+                return response.FirstOrDefault() ?? new ResultJson<DepremKayit>();
             }
             catch (Exception ex)
             {

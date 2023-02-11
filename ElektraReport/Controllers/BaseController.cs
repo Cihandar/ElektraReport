@@ -1,29 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using ElektraReport.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Http;
+﻿using ElektraReport.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
-using ElektraReport.Applications.Companys.Commands;
-using ElektraReport.Applications.Companys.ViewModels;
+using System;
 
 namespace ElektraReport.Controllers
 {
-    [Authorize]
+    //[Authorize]
 
 
     public class BaseController : Controller
     {
         public static Guid CompanyId { get; set; }
         public static string CompanyName { get; set; }
-        
- 
+
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             if (context.HttpContext.User.Identity.IsAuthenticated)
@@ -37,7 +29,7 @@ namespace ElektraReport.Controllers
 
                     if (user != null)
                     {
-                        CompanyId = user.CompanyId;                       
+                        CompanyId = user.CompanyId;
                         return;
                     }
 
