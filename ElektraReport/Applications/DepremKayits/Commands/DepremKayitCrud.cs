@@ -4,6 +4,7 @@ using ElektraReport.Applications.DepremKayits.ViewModels;
 using ElektraReport.Interfaces.Cruds;
 using ElektraReport.Models;
 using ElektraReport.Models.ResultModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,7 +90,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
 
         public async Task<List<VM_DepremKayit>> GetAll(Guid CompanyId)
         {
-            var DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == CompanyId && (x.IsDeleted==null || x.IsDeleted!=true) ).OrderBy(x=> x.Odano).ToList();
+            var DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == CompanyId && (x.IsDeleted == null || x.IsDeleted != true)).OrderBy(x => x.Odano).ToList();
             var result = _mapper.Map<List<VM_DepremKayit>>(DepremKayit);
             return result;
         }
@@ -114,7 +115,38 @@ namespace ElektraReport.Applications.DepremKayits.Commands
 
                 return false;
             }
- 
+
+        }
+
+        public async Task<List<VM_DepremKayitDashboard>> Dashboards()
+        {
+            try
+            {
+                var depremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x => x.OtelAdi).Select(y =>
+
+                new VM_DepremKayitDashboard
+                {
+                    Name = y.Key,
+                    UserTotal = y.Count()
+                }).ToList();
+
+                foreach (var item in depremKayit)
+                {
+                    item.RoomTotal = _context.DepremKayits.Where(x => x.OtelAdi == item.Name && (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x => x.Odano).Select(x => x.Key).Count();
+                }
+
+                var result = _mapper.Map<List<VM_DepremKayitDashboard>>(depremKayit);
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+
+
+
         }
     }
 }
