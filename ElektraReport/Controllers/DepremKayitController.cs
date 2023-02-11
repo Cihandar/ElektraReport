@@ -11,6 +11,7 @@ namespace ElektraReport.Controllers
     {
 
         IDepremKayitCrud _DepremKayitCrud;
+        ICompanyCrud _company;
 
         public DepremKayitController(IDepremKayitCrud DepremKayitCrud)
         {
@@ -30,6 +31,22 @@ namespace ElektraReport.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Create(Guid Id)
+        {
+            var result = new VM_DepremKayit();            
+            return PartialView("_FormPartial", result);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(VM_DepremKayit model)
+        {
+            var company = await _company.GetById(CompanyId);
+            model.OtelAdi = company.CompanyName;
+            model.CompanyId = CompanyId;
+            var result = await _DepremKayitCrud.Add(model);
+            return Json(result);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Update(Guid Id)
         {
             var result = await _DepremKayitCrud.GetById(Id);
@@ -41,6 +58,7 @@ namespace ElektraReport.Controllers
             var result = await _DepremKayitCrud.Update(model);
             return Json(result);
         }
+
 
 
 

@@ -11,6 +11,7 @@ namespace ElektraReport.Applications.DepremKayits.ViewModels
     public class VM_DepremKayit : IHaveCustomMapping
     {
         public Guid Id { get; set; }
+        public Guid CompanyId { get; set; }
         public string OtelAdi { get; set; }
         public string Odano { get; set; }
         public string TcNo { get; set; }

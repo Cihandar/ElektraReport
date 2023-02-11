@@ -21,8 +21,8 @@ namespace ElektraReport.Controllers
     public class BaseController : Controller
     {
         public static Guid CompanyId { get; set; }
-    
-
+        public static string CompanyName { get; set; }
+        
  
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -37,7 +37,7 @@ namespace ElektraReport.Controllers
 
                     if (user != null)
                     {
-                        CompanyId = user.CompanyId;                    
+                        CompanyId = user.CompanyId;                       
                         return;
                     }
 

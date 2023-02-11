@@ -22,6 +22,8 @@ using ElektraReport.Interfaces.ElektraApis;
 using ElektraReport.Applications.ElektraApis.Command;
 using DNTCaptcha.Core;
 using ElektraReport.Infrastructures.SignalR;
+using System.Net.Mail;
+using System.Net;
 
 namespace ElektraReport
 {
@@ -55,7 +57,18 @@ namespace ElektraReport
             services.AddScoped<IApiRequest, ApiRequest>();
             #endregion
 
-       
+            #region Fluent Email
+            services
+                .AddFluentEmail("depremyardim@alzeportal.com", "LinkyBar")
+                .AddSmtpSender(new SmtpClient("mail.alzeportal.com", 25)
+                {
+                    EnableSsl = false,
+                    UseDefaultCredentials = false,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    Credentials = new NetworkCredential("depremyardim@alzeportal.com", "ds77Y&e8")
+                });
+            #endregion
+
 
             services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly });
 

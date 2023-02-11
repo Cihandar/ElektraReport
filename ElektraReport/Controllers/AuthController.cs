@@ -49,11 +49,11 @@ namespace ElektraReport.Controllers
 
         [HttpPost("Register")]
         [ValidateAntiForgeryToken]
-        [ValidateDNTCaptcha(
-            ErrorMessage = "Güvenlik Kodu Hatalı.. Lütfen Doğru Güvenlik Kodunu Giriniz..",
-            CaptchaGeneratorLanguage = Language.Turkish,
-            CaptchaGeneratorDisplayMode = DisplayMode.ShowDigits)
-            ]
+        //[ValidateDNTCaptcha(
+        //    ErrorMessage = "Güvenlik Kodu Hatalı.. Lütfen Doğru Güvenlik Kodunu Giriniz..",
+        //    CaptchaGeneratorLanguage = Language.Turkish,
+        //    CaptchaGeneratorDisplayMode = DisplayMode.ShowDigits)
+        //    ]
         public async Task<IActionResult> Register(VM_AuthRegister model)
         {
             if(ModelState.IsValid)
@@ -62,7 +62,7 @@ namespace ElektraReport.Controllers
 
                 return Json(result);
             }
-            return Json(new ResultJson<AppUser> { Success = false, Message = "Lütfen Güvenlik Kodu Girin",Data=null });
+            return Json(new ResultJson<AppUser> { Success = false, Message = "Hata",Data=null });
         }
 
         [Route("Logout")]
