@@ -18,7 +18,9 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Firma Adı</th>        
+                            <th>Firma Adı</th> 
+                            <th>Yetiki</th>
+                            <th>Tel</th>
                             <th width="50">İşlemler</th>
                         </tr>
                     </thead>
@@ -49,13 +51,15 @@
             var clmns = [
                 { "data": null, visible: false },
                 { "data": "companyName" },
+                { "data": "name" },
+                { "data": "phone" },
                 {
                     data: null,
                     className: "dt-center",
                     targets: -1,
                     orderable: false,
                     render: function (data, type, full, meta) {
-                        return '<button class="btn btn-info font-weight-bold btn-pill mr-2  min-w-90px EfaturaPortalApp-datatables-update"  title="Düzenle" data-endpoint="Company/Update" data-id="' + full.id +'">Güncelle</button>';
+                        return '';
                     }
                 }
             ];

@@ -77,6 +77,7 @@ namespace ElektraReport.Controllers
         }
 
 
+
         //[HttpPost]
         //public async Task<IActionResult> GetReport(RequestModel model)
         //{
@@ -91,6 +92,20 @@ namespace ElektraReport.Controllers
             var result = await _DepremKayitCrud.Dashboards();
 
             return PartialView("Default", result);
+
+        [HttpGet]
+        public async Task<IActionResult> Otel(Guid Id)
+        {
+            var result = await _company.GetAll(CompanyId);
+            return View("OtelKayitlari", result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllOtel(Guid companyId,string adsoyad,string tcno)
+        {
+            var result = await _DepremKayitCrud.GetAllOtel(companyId,adsoyad,tcno);
+            return Json(result);
+
         }
 
         [HttpPost]

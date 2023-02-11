@@ -118,6 +118,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
 
         }
 
+
         public async Task<List<VM_DepremKayitDashboard>> Dashboards()
         {
             try
@@ -146,6 +147,38 @@ namespace ElektraReport.Applications.DepremKayits.Commands
 
 
 
+
+
+        public async Task<List<VM_DepremKayit>> GetAllOtel(Guid companyId, string adsoyad, string tcno)
+        {
+            var DepremKayit = new List<DepremKayit>();
+
+            if (Guid.Empty == companyId)
+            {
+                if (!string.IsNullOrEmpty(adsoyad) && !string.IsNullOrEmpty(tcno))
+                    DepremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(adsoyad) || x.Soyadi.Contains(adsoyad)) && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList(); 
+                else if (!string.IsNullOrEmpty(adsoyad))
+                    DepremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(adsoyad) || x.Soyadi.Contains(adsoyad))).OrderBy(x => x.Odano).ToList(); 
+                else if  (!string.IsNullOrEmpty(tcno))
+                    DepremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true)   && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList(); 
+                else
+                    DepremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true)).OrderBy(x => x.Odano).ToList();
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(adsoyad) && !string.IsNullOrEmpty(tcno))
+                    DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == companyId &&  (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(adsoyad) || x.Soyadi.Contains(adsoyad)) && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList();
+                else if (!string.IsNullOrEmpty(adsoyad))
+                    DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == companyId && (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(adsoyad) || x.Soyadi.Contains(adsoyad))).OrderBy(x => x.Odano).ToList();
+                else if (!string.IsNullOrEmpty(tcno))
+                    DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == companyId && (x.IsDeleted == null || x.IsDeleted != true) && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList();
+                else
+                    DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == companyId && (x.IsDeleted == null || x.IsDeleted != true) ).OrderBy(x => x.Odano).ToList();
+            }
+
+            var result = _mapper.Map<List<VM_DepremKayit>>(DepremKayit);
+
+            return result;
 
         }
     }

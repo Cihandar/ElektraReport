@@ -6,23 +6,24 @@
 
             <div class="card-header">
                 <div class="row">
-                    <div class="col-md-4">
-                        <select id="companyName">
+                    <div class="col-md-4 form-group">
+                        <select class="form-control" id="companyName">
                             @foreach (var item in Model)
                             {
-                                <option value="@item.Id">@item.CompanyName</option>
+                            <option value="@item.Id">@item.CompanyName</option>
                             }
+                            <option value="00000000-0000-0000-0000-000000000000">Tüm Oteller</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
-                        <input class="input-group" type="text" id="tcno" placeholder="TcNo" />
+                    <div class="col-md-4 form-group">
+                        <input class="form-control" type="text" id="tcno" placeholder="TcNo" />
                     </div>
-                    <div class="col-md-4">
-                        <input class="input-group" type="text" id="adsoyad" placeholder="Ad Soyad" />
+                    <div class="col-md-4 form-group">
+                        <input class="form-control" type="text" id="adsoyad" placeholder="Ad Soyad" />
                     </div>
                 </div>
                 <div class="row">
-                    <button type="button"  class="btn btn-success mr-1">Filtrele</button>
+                    <button type="button" onclick="datatableUpdate()" class="btn btn-success mr-1">Filtrele</button>
                 </div>
             </div>
 
@@ -72,15 +73,16 @@
             var clmns = [
                 { "data": null, visible: false },
                 {
+                    visible: false,
                     data: null,
                     className: "dt-center",
                     targets: -1,
                     orderable: false,
                     render: function (data, type, full, meta) {
-                        return '<button class="btn btn-info font-weight-bold btn-pill mr-2  min-w-90px EfaturaPortalApp-datatables-update"  title="Düzenle" data-endpoint="DepremKayit/Update" data-id="' + full.id + '">Güncelle</button>';
+                        return '';
                     }
                 },
-                { "data": "otelAdi", visible: false },
+                { "data": "otelAdi" },
                 { "data": "odano" },
                 { "data": "tcNo" },
                 { "data": "adi" },
@@ -110,7 +112,10 @@
 
             ];
 
-            GetData("DepremKayit/GetAllOtel", "", "", clmns);
+            var get = "CompanyId=" + $("#companyName").val();
+            get = get + "&adsoyad=" + $("#adsoyad").val();
+            get = get + "&tcno=" + $("#tcno").val();
+            GetData("/DepremKayit/GetAllOtel?"+get, "", "", clmns);
 
         };
 
