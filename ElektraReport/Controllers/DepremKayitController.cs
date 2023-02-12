@@ -66,7 +66,7 @@ namespace ElektraReport.Controllers
         [HttpGet]
         public async Task<IActionResult> CheckOut(Guid Id)
         {
-            var result = await _DepremKayitCrud.Delete(Id);
+            var result = await _DepremKayitCrud.CheckOut(Id);
             return Json(result);
         }
       
