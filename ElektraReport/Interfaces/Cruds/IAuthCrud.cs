@@ -12,5 +12,7 @@ namespace ElektraReport.Interfaces.Cruds
     {
         Task<ResultJson<AppUser>> Register(VM_AuthRegister model);
         Task<ResultJson<AppUser>> Login(VM_LoginModel model);
+        Task<ResultJson<AppUser>> SetActiveUser(string email);
+        Task<List<VM_PassiveUsers>> GetAllPassiveUsers();
     }
 }

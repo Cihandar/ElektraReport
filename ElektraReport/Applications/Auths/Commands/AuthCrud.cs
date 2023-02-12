@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ElektraReport.Infrastructures.Mail;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace ElektraReport.Applications.Auths.Commands
 {
@@ -21,8 +23,9 @@ namespace ElektraReport.Applications.Auths.Commands
         private ICompanyCrud _company;
         private ISendEmail _mail;
         private IFluentMailCore  _fluentmail;
+        public IMapper _mapper;
 
-        public AuthCrud(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, DatabaseContext context, ICompanyCrud company, ISendEmail mail, IFluentMailCore fluentmail)
+        public AuthCrud(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, DatabaseContext context, ICompanyCrud company, ISendEmail mail, IFluentMailCore fluentmail, IMapper mapper)
         {
             _context = context;
             _signInManager = signInManager;
@@ -30,6 +33,7 @@ namespace ElektraReport.Applications.Auths.Commands
             _company = company;
             _mail = mail;
             _fluentmail = fluentmail;
+            _mapper = mapper;
         }
 
         public async Task<ResultJson<AppUser>> Register(VM_AuthRegister model)
@@ -47,7 +51,7 @@ namespace ElektraReport.Applications.Auths.Commands
                     Email = model.Email,
                     UserName = model.Email,
                     CompanyId = resultCompany.Data.Id,
-                    FullName = model.Password
+                    FullName = model.Password,
                 };
                 var resultuser = await _userManager.CreateAsync(user, model.Password);
                 if (resultuser.Succeeded)
@@ -81,6 +85,9 @@ namespace ElektraReport.Applications.Auths.Commands
                 return new ResultJson<AppUser> { Success = false, Message = "Kullanıcı Adı veya Şifre Yanlış." };
             }
 
+            if (user.Status == 0)
+                return new ResultJson<AppUser> { Success = false, Message = "Kullanıcınız onaylanmamış, Yetkili kişiler sizi aricak!", Data = user };
+
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RemenberMe, false);
             if (result.Succeeded)
             {
@@ -95,6 +102,47 @@ namespace ElektraReport.Applications.Auths.Commands
         {
             var usercheck = _userManager.Users.Where(x => x.Email == email).FirstOrDefault();
             if (usercheck != null) return true; else return false;
+        }
+
+        public async Task<ResultJson<AppUser>> SetActiveUser(string email)
+        {
+            try
+            {
+                var user = await _userManager.Users.Where(x => x.UserName == email).FirstOrDefaultAsync();
+                if (user != null)
+                {
+                    user.Status = 1;
+                    await _context.SaveChangesAsync();
+                }
+
+                return new ResultJson<AppUser> { Success = true, Message = "Kayıt Başarılı."};
+            }
+            catch (Exception ex)
+            {
+                return new ResultJson<AppUser> { Success = false, Message = "Hata : " + ex.Message };
+            }
+        }
+
+        public async Task<List<VM_PassiveUsers>> GetAllPassiveUsers()
+        {
+            List<VM_PassiveUsers> response = new List<VM_PassiveUsers>();
+            var users = await _context.Users.Where(x => x.Status == 0).ToListAsync();
+            foreach (var item in users)
+            {
+                var company = _context.Companys.Where(x => x.Id == item.CompanyId).FirstOrDefault();
+                if (company != null)
+                {
+                    response.Add(new VM_PassiveUsers
+                    {
+                        Company = company.CompanyName,
+                        Email = item.Email,
+                        Name = company.Name,
+                        FullName = item.FullName,
+                        Phone = company.Phone
+                    });
+                }
+            }
+            return response;
         }
 
     }
