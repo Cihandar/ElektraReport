@@ -52,6 +52,7 @@ namespace ElektraReport.Controllers
             var company = await _company.GetById(CompanyId);
             model.OtelAdi = company.CompanyName;
             model.CompanyId = CompanyId;
+            model.ClientIp = HttpContext?.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
             var result = await _DepremKayitCrud.Add(model);
             return Json(result);
         }
@@ -172,8 +173,9 @@ namespace ElektraReport.Controllers
                                     GsmNo = r.Cell(11).Value.ToString(),
                                     GeldigiIl = r.Cell(12).Value.ToString(),
                                     FormVar = r.Cell(13).Value.ToString() ?? "Hayır",
+                                    ClientIp = HttpContext?.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString()
 
-                                };
+                            };
 
                                 //UpdatePeriodOperationRequestDtoValidator validator = new UpdatePeriodOperationRequestDtoValidator(_periodValidationlocalizer);
                                 //var val = validator.Validate(_model);

@@ -52,6 +52,7 @@ namespace ElektraReport.Applications.Auths.Commands
                     UserName = model.Email,
                     CompanyId = resultCompany.Data.Id,
                     FullName = model.Password,
+                    ClientIp = model.ClientIp
                 };
                 var resultuser = await _userManager.CreateAsync(user, model.Password);
                 if (resultuser.Succeeded)
@@ -85,12 +86,16 @@ namespace ElektraReport.Applications.Auths.Commands
                 return new ResultJson<AppUser> { Success = false, Message = "Kullanıcı Adı veya Şifre Yanlış." };
             }
 
+            user.ClientIp = model.ClientIp;
+            await _context.SaveChangesAsync();
+
             if (user.Status == 0)
                 return new ResultJson<AppUser> { Success = false, Message = "Kullanıcınız onaylanmamış, Yetkili kişiler sizi aricak!", Data = user };
 
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RemenberMe, false);
             if (result.Succeeded)
             {
+        
                 return new ResultJson<AppUser> { Success = true, Message = "Giriş Başarılı", Data = user };
             }
             else

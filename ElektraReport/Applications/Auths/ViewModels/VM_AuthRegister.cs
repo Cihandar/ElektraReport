@@ -14,5 +14,6 @@ namespace ElektraReport.Applications.Auths.ViewModels
         public bool MessageDelivery { get; set; }
         public bool Kvkk { get; set; }
         public string FullName { get; set; }
+        public string ClientIp { get; set; }
     }
 }
