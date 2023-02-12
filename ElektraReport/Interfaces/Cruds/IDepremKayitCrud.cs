@@ -15,8 +15,7 @@ namespace ElektraReport.Interfaces.Cruds
         Task<List<VM_DepremKayit>> GetAll(Guid DepremKayitId);
         Task<List<VM_DepremKayit>> GetAllOtel(Guid companyId, string adsoyad, string tcno);
         Task<VM_DepremKayit> GetById(Guid Id);
-
-
+        Task<bool> CheckOut(Guid Id);
 
         Task<bool> Delete(Guid Id);
 

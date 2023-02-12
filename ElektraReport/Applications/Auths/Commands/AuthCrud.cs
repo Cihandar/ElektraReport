@@ -70,6 +70,8 @@ namespace ElektraReport.Applications.Auths.Commands
             }
             return null;
         }
+
+      
         public async Task<ResultJson<AppUser>> Login(VM_LoginModel model)
         {
             var user = _userManager.Users.Where(x => x.UserName == model.Email).FirstOrDefault();

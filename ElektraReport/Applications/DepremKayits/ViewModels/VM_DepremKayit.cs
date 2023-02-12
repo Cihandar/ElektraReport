@@ -25,7 +25,7 @@ namespace ElektraReport.Applications.DepremKayits.ViewModels
         public string FormVar { get; set; }
         public string RezervasyonNo { get; set; }
         public string Cinsiyet { get; set; }
-
+        public bool isCheckOut { get; set; }
         public void CreateMappings(Profile configuration)
         {
             configuration.CreateMap<VM_DepremKayit, DepremKayit>();

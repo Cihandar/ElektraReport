@@ -20,5 +20,6 @@ namespace ElektraReport.Models
         public string FormVar { get; set; }
         public string RezervasyonNo { get; set; }
         public string Cinsiyet { get; set; }
+        public bool isCheckOut { get; set; }
     }
 }

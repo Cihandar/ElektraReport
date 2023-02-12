@@ -4,16 +4,22 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-        @*<li class="nav-item d-none d-sm-inline-block ml-5">
-            <a href="/YeniFatura/Create" class="btn btn-success">Fatura Oluştur</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block ml-2">
-            <a href="/GidenFaturalar" class="btn btn-primary">Giden Fatura</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block ml-2">
-            <a href="/YeniFatura/Create" class="btn btn-warning">Gelen Fatura</a>
-        </li>*@
-    </ul>
+        @if (ViewBag.Admin != null && ViewBag.Admin == false)
+        {
+            <li class="nav-item">
+                <strong>Yardım ve Destek İçin : halit@goktas.net | 0533 524 86 94 || Mücahit Düzgün | 0549 790 50 25</strong>
+            </li>
+        }
+            @*<li class="nav-item d-none d-sm-inline-block ml-5">
+                <a href="/YeniFatura/Create" class="btn btn-success">Fatura Oluştur</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block ml-2">
+                <a href="/GidenFaturalar" class="btn btn-primary">Giden Fatura</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block ml-2">
+                <a href="/YeniFatura/Create" class="btn btn-warning">Gelen Fatura</a>
+            </li>*@
+        </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">

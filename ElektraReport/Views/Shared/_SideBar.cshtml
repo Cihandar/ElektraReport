@@ -33,38 +33,39 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
-                with font-awesome or any other icon font library -->
+    with font-awesome or any other icon font library -->
 
-                @if (ViewBag.Admin!=null && ViewBag.Admin==true)
-                    {
-                <li class="nav-item">
-                    <a href="/DepremKayit/Otel" class="nav-link">
-                        <i class="nav-icon fas fa-chart-line"></i>
-                        <p>
-                            Rezervasyon Kayıtları
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/Company" class="nav-link">
-                        <i class="nav-icon fas fa-chart-line"></i>
-                        <p>
-                            Kayıt Olan Oteller
-                        </p>
-                    </a>
-                </li>
-                    }
-                    else
-                    {
-                <li class="nav-item">
-                    <a href="/DepremKayit" class="nav-link">
-                        <i class="nav-icon fas fa-chart-line"></i>
-                        <p>
-                            Rezervasyon Kayıt
-                        </p>
-                    </a>
-                </li>
-                    }
+                @if (ViewBag.Admin != null && ViewBag.Admin == true)
+                {
+                    <li class="nav-item">
+                        <a href="/DepremKayit/Otel" class="nav-link">
+                            <i class="nav-icon fas fa-chart-line"></i>
+                            <p>
+                                Rezervasyon Kayıtları
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Company" class="nav-link">
+                            <i class="nav-icon fas fa-chart-line"></i>
+                            <p>
+                                Kayıt Olan Oteller
+                            </p>
+                        </a>
+                    </li>
+   
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a href="/DepremKayit" class="nav-link">
+                            <i class="nav-icon fas fa-chart-line"></i>
+                            <p>
+                                Rezervasyon Kayıt
+                            </p>
+                        </a>
+                    </li>
+                }
 
 
 

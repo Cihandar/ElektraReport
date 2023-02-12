@@ -16,6 +16,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
         public DatabaseContext _context;
         public IMapper _mapper;
 
+
         public DepremKayitCrud(DatabaseContext context, IMapper mapper)
         {
             _context = context;
@@ -26,6 +27,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
         {
             try
             {
+                model.isCheckOut = false;
                 var DepremKayit = _mapper.Map<DepremKayit>(model);
                 _context.DepremKayits.Add(DepremKayit);
                 _context.SaveChanges();
@@ -45,9 +47,9 @@ namespace ElektraReport.Applications.DepremKayits.Commands
                 List<ResultJson<DepremKayit>> response = new List<ResultJson<DepremKayit>>();
                 foreach (var item in model)
                 {
-                    var snc = await _context.DepremKayits.Where(x => x.Odano == item.Odano && x.TcNo == item.TcNo && x.CompanyId == item.CompanyId).FirstOrDefaultAsync();                    
-                    var res = snc==null ? await Add(item) : null;
-                    response.Add(res);  
+                    var snc = await _context.DepremKayits.Where(x => x.Odano == item.Odano && x.TcNo == item.TcNo && x.CompanyId == item.CompanyId).FirstOrDefaultAsync();
+                    var res = snc == null ? await Add(item) : null;
+                    response.Add(res);
                 }
 
                 return response.FirstOrDefault() ?? new ResultJson<DepremKayit>();
@@ -122,6 +124,8 @@ namespace ElektraReport.Applications.DepremKayits.Commands
         {
             try
             {
+                var company = _context.Companys.ToList();
+
                 var depremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x => x.OtelAdi).Select(y =>
 
                 new VM_DepremKayitDashboard
@@ -132,11 +136,12 @@ namespace ElektraReport.Applications.DepremKayits.Commands
 
                 foreach (var item in depremKayit)
                 {
+                    item.CompanyTotal = company.Count;
                     item.RoomTotal = _context.DepremKayits.Where(x => x.OtelAdi == item.Name && (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x => x.Odano).Select(x => x.Key).Count();
                 }
 
                 var result = _mapper.Map<List<VM_DepremKayitDashboard>>(depremKayit);
-                return result;
+                return result.OrderByDescending(x => x.UserTotal).ToList();
             }
             catch (Exception ex)
             {
@@ -154,56 +159,73 @@ namespace ElektraReport.Applications.DepremKayits.Commands
 
             var ad = "";
             var soyad = "";
-
-            var splt = adsoyad.Split(' ');
-            if (splt.Length == 1)
+            if (!string.IsNullOrEmpty(adsoyad))
             {
-                ad = adsoyad;
-                soyad = adsoyad;
+                var splt = adsoyad.Split(' ');
+                if (splt.Length == 1)
+                {
+                    ad = adsoyad;
+                    soyad = adsoyad;
+                }
+                if (splt.Length == 2)
+                {
+                    ad = splt[0];
+                    soyad = splt[1];
+                }
+                if (splt.Length == 3)
+                {
+                    ad = splt[0] + " " + splt[1];
+                    soyad = splt[2];
+                }
+                if (splt.Length > 3)
+                {
+                    ad = adsoyad;
+                    soyad = adsoyad;
+                }
             }
-            if (splt.Length == 2)
-            {
-                ad = splt[0];
-                soyad = splt[1];
-            }
-            if (splt.Length == 3)
-            {
-                ad = splt[0]+" "+ splt[1];
-                soyad = splt[2];
-            }
-            if(splt.Length>3)
-            {
-                ad = adsoyad;
-                soyad = adsoyad;
-            }
-
             if (Guid.Empty == companyId)
             {
                 if (!string.IsNullOrEmpty(adsoyad) && !string.IsNullOrEmpty(tcno))
-                    DepremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(ad) || x.Soyadi.Contains(soyad)) && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList(); 
+                    DepremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(ad) || x.Soyadi.Contains(soyad)) && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList();
                 else if (!string.IsNullOrEmpty(adsoyad))
-                    DepremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(ad) || x.Soyadi.Contains(soyad))).OrderBy(x => x.Odano).ToList(); 
-                else if  (!string.IsNullOrEmpty(tcno))
-                    DepremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true)   && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList(); 
+                    DepremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(ad) || x.Soyadi.Contains(soyad))).OrderBy(x => x.Odano).ToList();
+                else if (!string.IsNullOrEmpty(tcno))
+                    DepremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true) && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList();
                 else
                     DepremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true)).OrderBy(x => x.Odano).ToList();
             }
             else
             {
                 if (!string.IsNullOrEmpty(adsoyad) && !string.IsNullOrEmpty(tcno))
-                    DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == companyId &&  (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(ad) || x.Soyadi.Contains(soyad)) && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList();
+                    DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == companyId && (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(ad) || x.Soyadi.Contains(soyad)) && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList();
                 else if (!string.IsNullOrEmpty(adsoyad))
                     DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == companyId && (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(ad) || x.Soyadi.Contains(soyad))).OrderBy(x => x.Odano).ToList();
                 else if (!string.IsNullOrEmpty(tcno))
                     DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == companyId && (x.IsDeleted == null || x.IsDeleted != true) && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList();
                 else
-                    DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == companyId && (x.IsDeleted == null || x.IsDeleted != true) ).OrderBy(x => x.Odano).ToList();
+                    DepremKayit = _context.DepremKayits.Where(x => x.CompanyId == companyId && (x.IsDeleted == null || x.IsDeleted != true)).OrderBy(x => x.Odano).ToList();
             }
 
             var result = _mapper.Map<List<VM_DepremKayit>>(DepremKayit);
 
             return result;
 
+        }
+
+        public async Task<bool> CheckOut(Guid Id)
+        {
+            try
+            {
+                var depremKayit = _context.DepremKayits.FirstOrDefault(x => x.Id == Id);
+                depremKayit.isCheckOut = true;
+                depremKayit.CikisTarihi = DateTime.UtcNow;
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

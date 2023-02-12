@@ -32,6 +32,15 @@ namespace ElektraReport.Controllers
         }
 
         [HttpGet]
+        public async Task<JsonResult> GetUsers()
+        {
+
+            var result = await _companyCrud.GetAll(CompanyId);
+            return Json(result);
+        }
+
+
+        [HttpGet]
         public async Task<IActionResult> Update(Guid Id)
         {
             var result = await _companyCrud.GetById(Id);

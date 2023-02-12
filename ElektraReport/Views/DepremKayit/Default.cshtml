@@ -18,13 +18,56 @@
 }
 else
 {
+
+<div class="row">
+    <div class="col-12">
+        <div class="info-box bg-gradient-dark">
+            @*<span class="info-box-icon"><i class="far fa fa-building"></i></span>*@
+
+            <div class="info-box-content">
+                <span class="info-box-text text-center"></span>
+                <div class="row text-center">
+                    <div class="col-md-4 border-right">
+                        <div class="description-block">
+                            <span class="description-header">Kayıtlı Otel</span>
+                            <h5 class="description-header">@Model.FirstOrDefault().CompanyTotal</h5>
+
+                        </div>
+                   
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4 border-right">
+                        <div class="description-block">
+                            <span class="description-header">Toplam Oda</span>
+                            <h5 class="description-header">@Model.Sum(x => x.RoomTotal).ToString()</h5>
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                        <div class="description-block">
+                            <span class="description-header">Toplam Kişi</span>
+                            <h5 class="description-header">@Model.Sum(x => x.UserTotal).ToString()</h5>
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                </div>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+</div>
     <div class="row">
 
 
         @foreach (var item in Model)
         {
             <div class="col-xl-2 col-lg-4 col-md-5 col-sm-6 col-12">
-                <div class="info-box bg-gradient-primary">
+                <div class="info-box bg-gradient-dark">
                     @*<span class="info-box-icon"><i class="far fa fa-building"></i></span>*@
 
                     <div class="info-box-content">
