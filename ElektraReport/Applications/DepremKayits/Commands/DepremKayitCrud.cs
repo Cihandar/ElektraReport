@@ -126,7 +126,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
             {
                 var company = _context.Companys.ToList();
 
-                var depremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x => new { x.OtelAdi,x.CompanyId }).Select(y =>
+                var depremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true) && x.isCheckOut != true).GroupBy(x => new { x.OtelAdi,x.CompanyId }).Select(y =>
 
                 new VM_DepremKayitDashboard
                 {
@@ -138,7 +138,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
                 foreach (var item in depremKayit)
                 {
                     item.CompanyTotal = company.Count;
-                    item.RoomTotal = _context.DepremKayits.Where(x => x.OtelAdi == item.Name && (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x => x.Odano).Select(x => x.Key).Count();
+                    item.RoomTotal = _context.DepremKayits.Where(x => x.OtelAdi == item.Name && x.isCheckOut != true && (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x => x.Odano).Select(x => x.Key).Count();
                 }
 
                 var result = _mapper.Map<List<VM_DepremKayitDashboard>>(depremKayit);
@@ -235,7 +235,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
             {
                 var company = _context.Companys.ToList();
 
-                var depremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true) && x.CompanyId==CompanyId).GroupBy(x => new { x.OtelAdi, x.CompanyId }).Select(y =>
+                var depremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true) && x.CompanyId==CompanyId && x.isCheckOut!=true).GroupBy(x => new { x.OtelAdi, x.CompanyId }).Select(y =>
 
                  new VM_DepremKayitDashboard
                  {
@@ -247,7 +247,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
                 foreach (var item in depremKayit)
                 {
                     item.CompanyTotal = company.Count;
-                    item.RoomTotal = _context.DepremKayits.Where(x => x.CompanyId == item.CompanyId && (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x => x.Odano).Select(x => x.Key).Count();
+                    item.RoomTotal = _context.DepremKayits.Where(x => x.CompanyId == item.CompanyId && x.isCheckOut != true && (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x => x.Odano).Select(x => x.Key).Count();
                 }
 
                 var result = _mapper.Map<List<VM_DepremKayitDashboard>>(depremKayit);
