@@ -1,0 +1,57 @@
+﻿@model List<ElektraReport.Applications.DepremKayits.ViewModels.VM_DepremKayitDashboard>;
+
+@if (Model == null)
+{
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-danger"><i class="far fa-flag"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Gösterilecek Kayıt Yok..</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+    </div>
+}
+else
+{
+
+<div class="row">
+    <div class="col-12">
+        <div class="info-box bg-gradient-dark">
+            @*<span class="info-box-icon"><i class="far fa fa-building"></i></span>*@
+
+            <div class="info-box-content">
+                <span class="info-box-text text-center"></span>
+                <div class="row text-center">
+                    <!-- /.col -->
+                    <div class="col-md-6 border-right">
+                        <div class="description-block">
+                            <span class="description-header">Toplam Oda</span>
+                            <h5 class="description-header">@Model.Sum(x => x.RoomTotal).ToString()</h5>
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <!-- /.col -->
+                    <div class="col-md-6">
+                        <div class="description-block">
+                            <span class="description-header">Toplam Kişi</span>
+                            <h5 class="description-header">@Model.Sum(x => x.UserTotal).ToString()</h5>
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                </div>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+</div>
+     
+}

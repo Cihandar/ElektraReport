@@ -49,5 +49,12 @@ namespace ElektraReport.Controllers
             var result = await _authCrud.SetActiveUser(email);
             return Json(result);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SetDisable(string email)
+        {
+            var result = await _authCrud.SetDisableUser(email);
+            return Json(result);
+        }
     }
 }

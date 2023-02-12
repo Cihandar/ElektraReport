@@ -91,6 +91,8 @@ namespace ElektraReport.Applications.Auths.Commands
 
             if (user.Status == 0)
                 return new ResultJson<AppUser> { Success = false, Message = "Kullanıcınız onaylanmamış, Yetkili kişiler sizi aricak!", Data = user };
+            if (user.Status > 1)
+                return new ResultJson<AppUser> { Success = false, Message = "Kullanıcınız onaylanmamıştır !", Data = user };
 
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RemenberMe, false);
             if (result.Succeeded)
@@ -128,10 +130,29 @@ namespace ElektraReport.Applications.Auths.Commands
             }
         }
 
+        public async Task<ResultJson<AppUser>> SetDisableUser(string email)
+        {
+            try
+            {
+                var user = await _userManager.Users.Where(x => x.UserName == email).FirstOrDefaultAsync();
+                if (user != null)
+                {
+                    user.Status = 2;
+                    await _context.SaveChangesAsync();
+                }
+
+                return new ResultJson<AppUser> { Success = true, Message = "İşlem Başarılı." };
+            }
+            catch (Exception ex)
+            {
+                return new ResultJson<AppUser> { Success = false, Message = "Hata : " + ex.Message };
+            }
+        }
+
         public async Task<List<VM_PassiveUsers>> GetAllPassiveUsers()
         {
             List<VM_PassiveUsers> response = new List<VM_PassiveUsers>();
-            var users = await _context.Users.Where(x => x.Status == 0).ToListAsync();
+            var users = await _context.Users.Where(x => x.Status == 0 ).ToListAsync();
             foreach (var item in users)
             {
                 var company = _context.Companys.Where(x => x.Id == item.CompanyId).FirstOrDefault();

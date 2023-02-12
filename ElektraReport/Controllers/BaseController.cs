@@ -24,15 +24,6 @@ namespace ElektraReport.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-         
-        }
-
-        public override async Task OnActionExecutionAsync(ActionExecutingContext context,
-                                         ActionExecutionDelegate next)
-        {
-     
-
-            await next(); // the actual action
 
             if (context.HttpContext.User.Identity.IsAuthenticated)
             {
@@ -59,12 +50,8 @@ namespace ElektraReport.Controllers
                 {
                     CompanyId = user.CompanyId;
                     Admin = user.Admin;
-                    ViewBag.Admin = Admin;
-                    var companyCrud = context.HttpContext.RequestServices.GetService<ICompanyCrud>();
-                    // logic before action goes here
-                    var data = await companyCrud.GetById(CompanyId);
-                    if (data != null)
-                    ViewBag.CompanyName = data.CompanyName;
+                    ViewBag.Admin = Admin;    
+                    // logic before action goes here 
 
                     //ViewBag.PermissionEnum = user.Yetki;
                     //ViewBag.Admin = user.admin;
@@ -75,9 +62,7 @@ namespace ElektraReport.Controllers
                 }
 
             }
-
-  
-            // logic after the action goes here
         }
+ 
     }
 }

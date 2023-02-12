@@ -29,7 +29,7 @@
             </div>
 
             <div class="card-footer">
-
+                
             </div>
 
         </div>
@@ -57,6 +57,7 @@
                     render: function (data, type, full, meta) {
                         var btns = '<div class="btn-group btn-group-sm">';
                         btns = btns + '<button class="btn btn-success font-weight-bold btn-pill mr-2  min-w-90px EfaturaPortalApp-datatables-setactive" title="Onayla" data-endpoint="oteluserregister/Update" data-id="' + full.email + '"><i class="fa far fa-check"></i></button>';
+                        btns = btns + '<button class="btn btn-danger font-weight-bold btn-pill mr-2  min-w-90px EfaturaPortalApp-datatables-setdisable" title="Onayla" data-endpoint="oteluserregister/Update" data-id="' + full.email + '"><i class="fa far fa-times"></i></button>';
                         btns = btns + '</div>';
                         return btns;
 
@@ -111,6 +112,41 @@
                 }
             );
         });
+
+        $(document).on("click", ".EfaturaPortalApp-datatables-setdisable", function () {
+            Notiflix.Confirm.Show(
+                'Emin misiniz ?',
+                'Seçili Kullanıcı Onay verilmeyecek. Emin misiniz ? ',
+                'Evet Emin',
+                'Vazgeç',
+                () => {
+                    $.ajax({
+                        beforeSend: function () {
+                            Notiflix.Block.Hourglass('.card', 'lütfen bekleyiniz..');
+                        },
+                        url: "oteluserregister/SetDisable?email=" + $(this).data("id"),
+                        type: "post",
+                        processData: false,
+                        success: function (data) {
+                            if (data) {
+
+                                Notiflix.Notify.Success("Kullanıcı Onaylanmadı");
+
+
+                            } else {
+                                Notiflix.Report.Failure("İşlem Başarısız", "İşlem Gerçekleşmedi", "Kapat");
+                            }
+                        },
+                        complete: function () {
+                            Notiflix.Block.Remove("*");
+                            GetDataTable();
+
+                        }
+                    });
+                }
+            );
+        });
+
 
     </script>
 

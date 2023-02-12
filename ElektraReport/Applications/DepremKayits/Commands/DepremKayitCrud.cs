@@ -228,5 +228,38 @@ namespace ElektraReport.Applications.DepremKayits.Commands
                 return false;
             }
         }
+
+        public async Task<List<VM_DepremKayitDashboard>> Dashboards2(Guid CompanyId)
+        {
+            try
+            {
+                var company = _context.Companys.ToList();
+
+                var depremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true) && x.CompanyId==CompanyId).GroupBy(x => new { x.OtelAdi, x.CompanyId }).Select(y =>
+
+                 new VM_DepremKayitDashboard
+                 {
+                     Name = y.Key.OtelAdi,
+                     CompanyId = y.Key.CompanyId,
+                     UserTotal = y.Count()
+                 }).ToList();
+
+                foreach (var item in depremKayit)
+                {
+                    item.CompanyTotal = company.Count;
+                    item.RoomTotal = _context.DepremKayits.Where(x => x.CompanyId == item.CompanyId && (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x => x.Odano).Select(x => x.Key).Count();
+                }
+
+                var result = _mapper.Map<List<VM_DepremKayitDashboard>>(depremKayit);
+                return result.OrderByDescending(x => x.UserTotal).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+    
     }
 }
