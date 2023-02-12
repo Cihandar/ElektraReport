@@ -21,5 +21,6 @@ namespace ElektraReport.Models
         public string RezervasyonNo { get; set; }
         public string Cinsiyet { get; set; }
         public bool isCheckOut { get; set; }
+        public string ClientIp { get; set; }
     }
 }

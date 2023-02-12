@@ -33,9 +33,11 @@ namespace ElektraReport.Controllers
         {
             return View();
         }
+
         [HttpPost("Login")]
         public async Task<IActionResult> Login(VM_LoginModel model)
         {
+            model.ClientIp = HttpContext?.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
             var result = await _authCrud.Login(model);
 
             return Json(result);
@@ -58,6 +60,7 @@ namespace ElektraReport.Controllers
         {
             if(ModelState.IsValid)
             {
+                model.ClientIp = HttpContext?.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
                 var result = await _authCrud.Register(model);
 
                 return Json(result);
