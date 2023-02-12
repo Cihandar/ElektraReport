@@ -79,6 +79,9 @@
                     targets: -1,
                     orderable: false,
                     render: function (data, type, full, meta) {
+                        if (full.isCheckOut) {
+                            return "<span class='text-danger'>Çıkış Yaptı</span>"
+                        }
                         return '';
                     }
                 },
