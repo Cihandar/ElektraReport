@@ -10,7 +10,13 @@
                         <select class="form-control" id="companyName">
                             @foreach (var item in Model)
                             {
+                            @if(ViewBag.CompanyId==item.Id)
+                            {
+                            <option value="@item.Id" selected>@item.CompanyName</option>
+                            }else {
                             <option value="@item.Id">@item.CompanyName</option>
+                            }
+
                             }
                             <option value="00000000-0000-0000-0000-000000000000">Tüm Oteller</option>
                         </select>

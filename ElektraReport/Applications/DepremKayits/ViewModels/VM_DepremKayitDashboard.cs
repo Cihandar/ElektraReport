@@ -10,7 +10,7 @@ namespace ElektraReport.Applications.DepremKayits.ViewModels
         public string Name { get; set; }
         public int RoomTotal { get; set; }
         public int UserTotal { get; set; }
-
+        public Guid CompanyId { get; set; }
         public int CompanyTotal { get; set; }
     }
 }

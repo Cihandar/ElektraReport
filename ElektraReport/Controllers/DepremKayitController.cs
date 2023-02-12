@@ -106,6 +106,7 @@ namespace ElektraReport.Controllers
         public async Task<IActionResult> Otel(Guid Id)
         {
             if (!Admin) return Redirect("/Auth/Logout");
+            ViewBag.CompanyId = Id;
             var result = await _company.GetAll(CompanyId);
             return View("OtelKayitlari", result);
         }

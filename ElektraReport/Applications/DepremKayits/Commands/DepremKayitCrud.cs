@@ -126,11 +126,12 @@ namespace ElektraReport.Applications.DepremKayits.Commands
             {
                 var company = _context.Companys.ToList();
 
-                var depremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x => x.OtelAdi).Select(y =>
+                var depremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x => new { x.OtelAdi,x.CompanyId }).Select(y =>
 
                 new VM_DepremKayitDashboard
                 {
-                    Name = y.Key,
+                    Name = y.Key.OtelAdi,
+                    CompanyId = y.Key.CompanyId,
                     UserTotal = y.Count()
                 }).ToList();
 
