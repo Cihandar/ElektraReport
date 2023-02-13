@@ -1,4 +1,4 @@
-﻿@model List<ElektraReport.Applications.DepremKayits.ViewModels.VM_DepremKayitDashboard>;
+﻿@model ElektraReport.Applications.DepremKayits.ViewModels.VM_Dashboard;
 
 @if (Model == null)
 {
@@ -27,29 +27,53 @@ else
             <div class="info-box-content">
                 <span class="info-box-text text-center"></span>
                 <div class="row text-center">
-                    <div class="col-md-4 border-right">
+                    <div class="col-md-2 border-right">
                         <div class="description-block">
                             <span class="description-header">Kayıtlı Otel</span>
-                            <h5 class="description-header">@Model.FirstOrDefault().CompanyTotal</h5>
+                            <h5 class="description-header">@Model.TotalCompany</h5>
 
                         </div>
-                   
+
                     </div>
                     <!-- /.col -->
-                    <div class="col-md-4 border-right">
+                    <div class="col-md-2">
                         <div class="description-block">
-                            <span class="description-header">Toplam Oda</span>
-                            <h5 class="description-header">@Model.Sum(x => x.RoomTotal).ToString()</h5>
+                            <span class="description-header text-success">Mevcut Oda</span>
+                            <h5 class="description-header">@Model.DepremDashboard.Sum(x=>x.MevcutOda).ToString()</h5>
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <div class="col-md-2 border-right">
+                        <div class="description-block">
+                            <span class="description-header text-danger">Çıkan Oda</span>
+                            <h5 class="description-header">@Model.DepremDashboard.Sum(x => x.CikanOda).ToString()</h5>
 
                         </div>
                         <!-- /.description-block -->
                     </div>
                     <!-- /.col -->
                     <!-- /.col -->
-                    <div class="col-md-4">
+                    <div class="col-md-2">
+                        <div class="description-block">
+                            <span class="description-header text-success">Mevcut Kişi</span>
+                            <h5 class="description-header">@Model.DepremDashboard.Sum(x => x.MevcutKisi).ToString()</h5>
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <div class="col-md-2 border-right">
+                        <div class="description-block">
+                            <span class="description-header text-danger">Çıkan Kişi</span>
+                            <h5 class="description-header">@Model.DepremDashboard.Sum(x => x.CikanKisi).ToString()</h5>
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <div class="col-md-2">
                         <div class="description-block">
                             <span class="description-header">Toplam Kişi</span>
-                            <h5 class="description-header">@Model.Sum(x => x.UserTotal).ToString()</h5>
+                            <h5 class="description-header">@Model.DepremDashboard.Sum(x => x.MevcutKisi+x.CikanKisi).ToString()</h5>
 
                         </div>
                         <!-- /.description-block -->
@@ -64,9 +88,9 @@ else
     <div class="row">
 
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.DepremDashboard.Where(x=> (x.MevcutOda!=0 && x.MevcutKisi != 0) || (x.CikanKisi != 0 && x.CikanOda != 0) ).ToList())
         {
-            <div class="col-xl-2 col-lg-4 col-md-5 col-sm-6 col-12">
+            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                 <div class="info-box bg-gradient-dark">
                     @*<span class="info-box-icon"><i class="far fa fa-building"></i></span>*@
 
@@ -74,31 +98,62 @@ else
                         <span class="info-box-text text-center"><a class="text-white" href="/DepremKayit/Otel?Id=@item.CompanyId">@item.Name</a></span>
                         <div class="row text-center">
                             <!--<div class="col-md-4 border-right">
-                                <div class="description-block">
-                                    <span class="description-text"></span>
-                                    <h5 class="description-header"></h5>
+    <div class="description-block">
+        <span class="description-text"></span>
+        <h5 class="description-header"></h5>
 
-                                </div>-->
-                                <!-- /.description-block -->
+    </div>-->
+                            <!-- /.description-block -->
                             <!--</div>-->
                             <!-- /.col -->
-                            <div class="col-md-6 border-right">
-                                <div class="description-block">
-                                    <span class="description-header">Oda</span>
-                                    <h5 class="description-header">@item.RoomTotal</h5>
-
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-md-6 text-center text-success border-right ">
+                                        Mevcut
+                                    </div>
+                                    <div class="col-md-6 text-center text-danger ">
+                                        Çıkan
+                                    </div>
                                 </div>
-                                <!-- /.description-block -->
-                            </div>
-                            <!-- /.col -->
-                            <!-- /.col -->
-                            <div class="col-md-6">
-                                <div class="description-block">
-                                    <span class="description-header">Kişi</span>
-                                    <h5 class="description-header">@item.UserTotal</h5>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="description-block">
+                                            <span class="description-header">Oda</span>
+                                            <h5 class="description-header">@item.MevcutOda</h5>
 
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+
+                                    <div class="col-md-3 border-right">
+                                        <div class="description-block">
+                                            <span class="description-header">Kişi</span>
+                                            <h5 class="description-header">@item.MevcutKisi</h5>
+
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <!-- /.col -->
+                                    <div class="col-md-3 ">
+                                        <div class="description-block">
+                                            <span class="description-header">Oda</span>
+                                            <h5 class="description-header">@item.CikanOda</h5>
+
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <!-- /.col -->
+                                    <div class="col-md-3">
+                                        <div class="description-block">
+                                            <span class="description-header">Kişi</span>
+                                            <h5 class="description-header">@item.CikanKisi</h5>
+
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
                                 </div>
-                                <!-- /.description-block -->
                             </div>
                         </div>
                     </div>

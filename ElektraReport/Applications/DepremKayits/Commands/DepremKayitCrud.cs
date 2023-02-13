@@ -4,7 +4,9 @@ using ElektraReport.Applications.DepremKayits.ViewModels;
 using ElektraReport.Interfaces.Cruds;
 using ElektraReport.Models;
 using ElektraReport.Models.ResultModels;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +17,13 @@ namespace ElektraReport.Applications.DepremKayits.Commands
     {
         public DatabaseContext _context;
         public IMapper _mapper;
+        private IConfiguration config;
 
-
-        public DepremKayitCrud(DatabaseContext context, IMapper mapper)
+        public DepremKayitCrud(DatabaseContext context, IMapper mapper, IConfiguration config)
         {
             _context = context;
             _mapper = mapper;
+            this.config = config;
         }
 
         public async Task<ResultJson<DepremKayit>> Add(VM_DepremKayit model)
@@ -120,29 +123,51 @@ namespace ElektraReport.Applications.DepremKayits.Commands
         }
 
 
-        public async Task<List<VM_DepremKayitDashboard>> Dashboards()
+        public async Task<VM_Dashboard> Dashboards()
         {
             try
             {
-                var company = _context.Companys.ToList();
-
-                var depremKayit = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true) && x.isCheckOut != true).GroupBy(x => new { x.OtelAdi,x.CompanyId }).Select(y =>
-
-                new VM_DepremKayitDashboard
+               var depremList = new  VM_Dashboard();
+                depremList.DepremDashboard = new List<VM_DepremDashBoard>();
+                SqlConnection con = new SqlConnection(config.GetConnectionString("ElektraReportDb"));
+                SqlCommand cmd = new SqlCommand("select * from Q_DashBoard", con);
+                con.Open();
+                var dr = cmd.ExecuteReader();
+                while(dr.Read())
                 {
-                    Name = y.Key.OtelAdi,
-                    CompanyId = y.Key.CompanyId,
-                    UserTotal = y.Count()
-                }).ToList();
-
-                foreach (var item in depremKayit)
-                {
-                    item.CompanyTotal = company.Count;
-                    item.RoomTotal = _context.DepremKayits.Where(x => x.OtelAdi == item.Name && x.isCheckOut != true && (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x => x.Odano).Select(x => x.Key).Count();
+                    var deprem = new VM_DepremDashBoard();
+                    deprem.CompanyId =   dr.GetFieldValue<Guid>(dr.GetOrdinal("Id"));
+                    deprem.Name = dr.GetFieldValue<string>(dr.GetOrdinal("CompanyName"));
+                    deprem.MevcutKisi = dr.GetFieldValue<int>(dr.GetOrdinal("mevcutkisi"));
+                    deprem.MevcutOda = dr.GetFieldValue<int>(dr.GetOrdinal("mevcutoda"));
+                    deprem.CikanOda = dr.GetFieldValue<int>(dr.GetOrdinal("cikanoda"));
+                    deprem.CikanKisi = dr.GetFieldValue<int>(dr.GetOrdinal("cikankisi"));
+                    depremList.DepremDashboard.Add(deprem);
                 }
+                con.Close();
+                 var company = _context.Companys.ToList();
+                depremList.TotalCompany = company.Count;
+                depremList.DepremDashboard = depremList.DepremDashboard.OrderByDescending(x => x.MevcutKisi).ToList();
+                //var deprem = _context.DepremKayits.Where(x => (x.IsDeleted == null || x.IsDeleted != true)).AsNoTracking().ToList();
+                //var depremKayit = deprem.GroupBy(x => new { x.OtelAdi,x.CompanyId,x.isCheckOut }).Select(y =>
 
-                var result = _mapper.Map<List<VM_DepremKayitDashboard>>(depremKayit);
-                return result.OrderByDescending(x => x.UserTotal).ToList();
+                //new VM_DepremKayitDashboard
+                //{
+                //    Name = y.Key.OtelAdi,
+                //    CompanyId = y.Key.CompanyId,
+                //    isCheckOut = y.Key.isCheckOut,
+                //    UserTotal = y.Count()
+                //}).ToList();
+
+                //foreach (var item in depremKayit)
+                //{
+                //    item.CompanyTotal = company.Count;
+                //    item.RoomTotal = deprem.Where(x => x.OtelAdi == item.Name && x.isCheckOut!=true && (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x =>  x.Odano).Select(x => x.Key).Count();
+                //    item.CheckOutRoomTotal = deprem.Where(x => x.OtelAdi == item.Name && x.isCheckOut==true && (x.IsDeleted == null || x.IsDeleted != true)).GroupBy(x => x.Odano).Select(x => x.Key).Count();
+                //}
+
+                //var result = _mapper.Map<List<VM_DepremKayitDashboard>>(depremKayit);
+                return depremList;
             }
             catch (Exception ex)
             {
