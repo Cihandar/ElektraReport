@@ -160,9 +160,7 @@ namespace ElektraReport.Controllers
                     {
                         try
                         {
-                            var dogumdate = DateTime.Now;
-                            var date = DateTime.Parse(r.Cell(8).Value.ToString()).AddDays(7);
-                            DateTime.TryParse(r.Cell(9).Value.ToString(), out date);
+                    
 
 
                             if (!string.IsNullOrEmpty(r.Cell(4).Value.ToString())
@@ -171,6 +169,10 @@ namespace ElektraReport.Controllers
                                 && !string.IsNullOrEmpty(r.Cell(7).Value.ToString())
                                 && !string.IsNullOrEmpty(r.Cell(8).Value.ToString()))
                             {
+                                var dogumdate = DateTime.Now;
+                                var date = DateTime.Parse(r.Cell(8).Value.ToString()).AddDays(7);
+                                DateTime.TryParse(r.Cell(9).Value.ToString(), out date);
+
                                 var _model = new VM_DepremKayit()
                                 {
                                     CompanyId = CompanyId,
