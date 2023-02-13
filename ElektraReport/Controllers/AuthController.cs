@@ -10,6 +10,7 @@ using ElektraReport.Interfaces.Cruds;
 using ElektraReport.Applications.Auths.ViewModels;
 using DNTCaptcha.Core;
 using ElektraReport.Models.ResultModels;
+using ElektraReport.Components;
 
 namespace ElektraReport.Controllers
 {
@@ -39,6 +40,12 @@ namespace ElektraReport.Controllers
         {
             model.ClientIp = HttpContext?.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
             var result = await _authCrud.Login(model);
+
+            if (result.Success)
+            {
+                UserSession userSession = new UserSession();
+                await userSession.Set(result.Data, HttpContext);
+            }
 
             return Json(result);
         }

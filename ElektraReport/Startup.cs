@@ -111,6 +111,14 @@ namespace ElektraReport
             );
             #endregion
 
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(1);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+
             #region SignalR
             services.AddSignalR();
             #endregion
@@ -151,7 +159,7 @@ namespace ElektraReport
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseAuthorization();
-         
+            app.UseSession();
 
             //app.UseMvc(routes =>
             //{
