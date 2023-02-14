@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElektraReport.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace ElektraReport.Models
         public string Phone { get; set; }
         public string Name { get; set; }
         public bool? IsDeleted { get; set; }
+        public CompanyType CompanyType { get; set; }
         public DateTime? DeleteTime { get; set; }
     }
 }

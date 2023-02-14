@@ -13,6 +13,7 @@ namespace ElektraReport.Models
         public Guid CompanyId { get; set; }
         public string FullName { get; set; }
         public bool Admin { get; set; }
+        public bool OnayYetki { get; set; } = false;
         public string ClientIp { get; set; }
 
     }

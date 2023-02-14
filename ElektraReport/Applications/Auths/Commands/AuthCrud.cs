@@ -22,7 +22,7 @@ namespace ElektraReport.Applications.Auths.Commands
         private readonly UserManager<AppUser> _userManager;
         private ICompanyCrud _company;
         private ISendEmail _mail;
-        private IFluentMailCore  _fluentmail;
+        private IFluentMailCore _fluentmail;
         public IMapper _mapper;
 
         public AuthCrud(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, DatabaseContext context, ICompanyCrud company, ISendEmail mail, IFluentMailCore fluentmail, IMapper mapper)
@@ -58,15 +58,28 @@ namespace ElektraReport.Applications.Auths.Commands
                 if (resultuser.Succeeded)
                 {
                     var resultmail = await _mail.Send(model.Email, "", "", model.Email, model.Password, "");
-                   // var resultmail = await _fluentmail.Send(model.Email, model.Password);
+                    // var resultmail = await _fluentmail.Send(model.Email, model.Password);
                     //var resultemail = await _email.Send(model.Email, "Alze E Portal Giriş Bilgileri", "", model.Email, sifre.ToString(), "IlkKayit");
                     if (resultmail.Success)
                     {
+                        _context.Logs.Add(
+                            new Log
+                            {
+                                ClientIp = model.ClientIp,
+                                Note = "Kayıt Oldu",
+                                Tarih = DateTime.UtcNow,
+                                UserId = user.Id,
+                                UserName = user.Email,
+                                CompanyId = user.CompanyId
+                            }
+                            );
+                        _context.SaveChanges();
                         return new ResultJson<AppUser> { Success = true, Message = "<h3 class='text-danger'>Şifreniz : " + model.Password + "</h3> <br>Kaydınız yapıldı. Size Vermiş olduğumuz şifreyi not almayı unutmayın. bu şifre ile giriş yapabilirsiniz.", Data = user };
-                    }else
+                    }
+                    else
                     {
                         return new ResultJson<AppUser> { Success = false, Message = "Şifresi : " + model.Password + " Kaydınız yapıldı.  Size Vermiş olduğumuz şifreyi not almayı unutmayın. bu şifre ile giriş yapabilirsiniz.", Data = user };
-                    }                   
+                    }
                 }
             }
             else
@@ -76,7 +89,7 @@ namespace ElektraReport.Applications.Auths.Commands
             return null;
         }
 
-      
+
         public async Task<ResultJson<AppUser>> Login(VM_LoginModel model)
         {
             var user = _userManager.Users.Where(x => x.UserName == model.Email).FirstOrDefault();
@@ -97,7 +110,18 @@ namespace ElektraReport.Applications.Auths.Commands
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RemenberMe, false);
             if (result.Succeeded)
             {
-        
+                _context.Logs.Add(
+            new Log
+            {
+                ClientIp = model.ClientIp,
+                Note = "Kayıt Oldu",
+                Tarih = DateTime.UtcNow,
+                UserId = user.Id,
+                UserName = user.Email,
+                CompanyId = user.CompanyId
+            }
+            );
+                _context.SaveChanges();
                 return new ResultJson<AppUser> { Success = true, Message = "Giriş Başarılı", Data = user };
             }
             else
@@ -122,7 +146,7 @@ namespace ElektraReport.Applications.Auths.Commands
                     await _context.SaveChangesAsync();
                 }
 
-                return new ResultJson<AppUser> { Success = true, Message = "Kayıt Başarılı."};
+                return new ResultJson<AppUser> { Success = true, Message = "Kayıt Başarılı." };
             }
             catch (Exception ex)
             {
@@ -152,7 +176,7 @@ namespace ElektraReport.Applications.Auths.Commands
         public async Task<List<VM_PassiveUsers>> GetAllPassiveUsers()
         {
             List<VM_PassiveUsers> response = new List<VM_PassiveUsers>();
-            var users = await _context.Users.Where(x => x.Status == 0 ).ToListAsync();
+            var users = await _context.Users.Where(x => x.Status == 0).ToListAsync();
             foreach (var item in users)
             {
                 var company = _context.Companys.Where(x => x.Id == item.CompanyId).FirstOrDefault();

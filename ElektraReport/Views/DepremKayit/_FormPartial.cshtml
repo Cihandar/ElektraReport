@@ -134,6 +134,40 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label asp-for="BlackList" class="form-control-label">Kara Liste</label>
+                                <input asp-for="BlackList" class="form-control" />
+                                <span asp-validation-for="BlackList" class="text-danger"> </span>
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label asp-for="BlackListNote" class="form-control-label">Kara Liste Nedeni</label>
+                                <input asp-for="BlackListNote" class="form-control" />
+                                <span asp-validation-for="BlackListNote" class="text-danger"> </span>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.isCheckOut != null && Model.isCheckOut)
+                    {
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label asp-for="isCheckOut" class="form-control-label">Check Out Durumu</label>
+                                    <input asp-for="isCheckOut" class="form-control" />
+                                    <span asp-validation-for="isCheckOut" class="text-danger"> </span>
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label class="form-control-label">     </label>
+                                    <input class="form-control" readonly value="Eğer İşareti kaldırırsanız CheckOut Geri alınacaktır.." />
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary OtelApp-forms-modal-close" data-dismiss="modal">Vazgeç</button>

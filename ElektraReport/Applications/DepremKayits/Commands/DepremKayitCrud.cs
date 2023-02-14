@@ -31,6 +31,9 @@ namespace ElektraReport.Applications.DepremKayits.Commands
             try
             {
                 model.isCheckOut = false;
+                model.CreateDate = DateTime.UtcNow;
+                model.BlackList = false;
+                model.BlackListNote = "";
                 var DepremKayit = _mapper.Map<DepremKayit>(model);
                 _context.DepremKayits.Add(DepremKayit);
                 _context.SaveChanges();
@@ -50,7 +53,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
                 List<ResultJson<DepremKayit>> response = new List<ResultJson<DepremKayit>>();
                 foreach (var item in model)
                 {
-                    var snc = await _context.DepremKayits.Where(x => x.Odano == item.Odano && x.TcNo == item.TcNo && x.CompanyId == item.CompanyId).FirstOrDefaultAsync();
+                    var snc = await _context.DepremKayits.Where(x => x.Odano == item.Odano && x.TcNo == item.TcNo && x.CompanyId == item.CompanyId && (x.IsDeleted == null || x.IsDeleted != true)).FirstOrDefaultAsync();
                     var res = snc == null ? await Add(item) : null;
                     response.Add(res);
                 }
@@ -81,6 +84,8 @@ namespace ElektraReport.Applications.DepremKayits.Commands
                 depremKayit.RezervasyonNo = model.RezervasyonNo;
                 depremKayit.Soyadi = model.Soyadi;
                 depremKayit.TcNo = model.TcNo;
+                depremKayit.BlackList = model.BlackList;
+                depremKayit.BlackListNote = model.BlackListNote;
 
                 _context.SaveChanges();
 
@@ -105,11 +110,13 @@ namespace ElektraReport.Applications.DepremKayits.Commands
             return result;
         }
 
-        public async Task<bool> Delete(Guid Id)
+        public async Task<bool> Delete(Guid Id,string ip)
         {
             try
             {
                 var depremKayit = _context.DepremKayits.FirstOrDefault(x => x.Id == Id);
+                depremKayit.ModifyClientIp = ip;
+                depremKayit.DeleteTime = DateTime.UtcNow;
                 depremKayit.IsDeleted = true;
                 _context.SaveChanges();
                 return true;
@@ -238,11 +245,72 @@ namespace ElektraReport.Applications.DepremKayits.Commands
 
         }
 
-        public async Task<bool> CheckOut(Guid Id)
+        public async Task<List<VM_DepremKayit>> GetAllOtelBlackList(Guid companyId, string adsoyad, string tcno)
+        {
+            var DepremKayit = new List<DepremKayit>();
+
+            var ad = "";
+            var soyad = "";
+            if (!string.IsNullOrEmpty(adsoyad))
+            {
+                var splt = adsoyad.Split(' ');
+                if (splt.Length == 1)
+                {
+                    ad = adsoyad;
+                    soyad = adsoyad;
+                }
+                if (splt.Length == 2)
+                {
+                    ad = splt[0];
+                    soyad = splt[1];
+                }
+                if (splt.Length == 3)
+                {
+                    ad = splt[0] + " " + splt[1];
+                    soyad = splt[2];
+                }
+                if (splt.Length > 3)
+                {
+                    ad = adsoyad;
+                    soyad = adsoyad;
+                }
+            }
+            if (Guid.Empty == companyId)
+            {
+                if (!string.IsNullOrEmpty(adsoyad) && !string.IsNullOrEmpty(tcno))
+                    DepremKayit = _context.DepremKayits.Where(x => x.BlackList==true && (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(ad) || x.Soyadi.Contains(soyad)) && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList();
+                else if (!string.IsNullOrEmpty(adsoyad))
+                    DepremKayit = _context.DepremKayits.Where(x => x.BlackList == true && (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(ad) || x.Soyadi.Contains(soyad))).OrderBy(x => x.Odano).ToList();
+                else if (!string.IsNullOrEmpty(tcno))
+                    DepremKayit = _context.DepremKayits.Where(x => x.BlackList == true && (x.IsDeleted == null || x.IsDeleted != true) && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList();
+                else
+                    DepremKayit = _context.DepremKayits.Where(x => x.BlackList == true && (x.IsDeleted == null || x.IsDeleted != true)).OrderBy(x => x.Odano).ToList();
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(adsoyad) && !string.IsNullOrEmpty(tcno))
+                    DepremKayit = _context.DepremKayits.Where(x => x.BlackList == true && x.CompanyId == companyId && (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(ad) || x.Soyadi.Contains(soyad)) && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList();
+                else if (!string.IsNullOrEmpty(adsoyad))
+                    DepremKayit = _context.DepremKayits.Where(x => x.BlackList == true && x.CompanyId == companyId && (x.IsDeleted == null || x.IsDeleted != true) && (x.Adi.Contains(ad) || x.Soyadi.Contains(soyad))).OrderBy(x => x.Odano).ToList();
+                else if (!string.IsNullOrEmpty(tcno))
+                    DepremKayit = _context.DepremKayits.Where(x => x.BlackList == true && x.CompanyId == companyId && (x.IsDeleted == null || x.IsDeleted != true) && x.TcNo.Contains(tcno)).OrderBy(x => x.Odano).ToList();
+                else
+                    DepremKayit = _context.DepremKayits.Where(x => x.BlackList == true && x.CompanyId == companyId && (x.IsDeleted == null || x.IsDeleted != true)).OrderBy(x => x.Odano).ToList();
+            }
+
+            var result = _mapper.Map<List<VM_DepremKayit>>(DepremKayit);
+
+            return result;
+
+        }
+
+        public async Task<bool> CheckOut(Guid Id,string ip)
         {
             try
             {
                 var depremKayit = _context.DepremKayits.FirstOrDefault(x => x.Id == Id);
+                depremKayit.ModifyClientIp = ip;
+                depremKayit.ModifyDate = DateTime.UtcNow;
                 depremKayit.isCheckOut = true;
                 depremKayit.CikisTarihi = DateTime.UtcNow;
                 _context.SaveChanges();

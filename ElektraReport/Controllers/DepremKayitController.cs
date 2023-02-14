@@ -60,14 +60,16 @@ namespace ElektraReport.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(Guid Id)
         {
-            var result = await _DepremKayitCrud.Delete(Id);
+            var ip = HttpContext?.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+            var result = await _DepremKayitCrud.Delete(Id,ip);
             return Json(result);
         }
 
         [HttpGet]
         public async Task<IActionResult> CheckOut(Guid Id)
         {
-            var result = await _DepremKayitCrud.CheckOut(Id);
+            var ip = HttpContext?.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+            var result = await _DepremKayitCrud.CheckOut(Id,ip);
             return Json(result);
         }
 
@@ -81,6 +83,8 @@ namespace ElektraReport.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(VM_DepremKayit model)
         {
+            model.ModifyClientIp = HttpContext?.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+            model.ModifyDate = DateTime.UtcNow;
             var result = await _DepremKayitCrud.Update(model);
             return Json(result);
         }
@@ -106,8 +110,9 @@ namespace ElektraReport.Controllers
         [HttpPost]
         public async Task<IActionResult> Dashboards2Html()
         {
-            var result = await _DepremKayitCrud.Dashboards2(CompanyId);
-
+            var result = await _DepremKayitCrud.Dashboards();
+            result.DepremDashboard = result.DepremDashboard.Where(x => x.CompanyId == CompanyId).ToList();
+            result.TotalCompany = 1;
             return PartialView("Default2", result);
         }
 
@@ -119,6 +124,7 @@ namespace ElektraReport.Controllers
             var result = await _company.GetAll(CompanyId);
             return View("OtelKayitlari", result);
         }
+ 
 
         [HttpGet]
         public async Task<IActionResult> GetAllOtel(Guid companyId, string adsoyad, string tcno)
@@ -127,6 +133,14 @@ namespace ElektraReport.Controllers
             var result = await _DepremKayitCrud.GetAllOtel(companyId, adsoyad, tcno);
             return Json(result);
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> BlackList(Guid companyId, string adsoyad, string tcno)
+        {
+            if (!Admin) return Redirect("/Auth/Logout");
+            var result = await _DepremKayitCrud.GetAllOtelBlackList(companyId, adsoyad, tcno);
+            return Json(result.Where(x=>x.BlackList==true).ToList());
         }
 
         [HttpPost]

@@ -1,4 +1,4 @@
-﻿@model List<ElektraReport.Applications.DepremKayits.ViewModels.VM_DepremKayitDashboard>;
+﻿@model ElektraReport.Applications.DepremKayits.ViewModels.VM_Dashboard;
 
 @if (Model == null)
 {
@@ -27,21 +27,53 @@ else
             <div class="info-box-content">
                 <span class="info-box-text text-center"></span>
                 <div class="row text-center">
-                    <!-- /.col -->
-                    <div class="col-md-6 border-right">
+                    <div class="col-md-2 border-right">
                         <div class="description-block">
-                            <span class="description-header">Toplam Oda</span>
-                            <h5 class="description-header">@Model.Sum(x => x.RoomTotal).ToString()</h5>
+                            <span class="description-header"></span>
+                            <h5 class="description-header">@Model.DepremDashboard.FirstOrDefault().Name</h5>
+
+                        </div>
+
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-2">
+                        <div class="description-block">
+                            <span class="description-header text-success">Mevcut Oda</span>
+                            <h5 class="description-header">@Model.DepremDashboard.Sum(x => x.MevcutOda).ToString()</h5>
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <div class="col-md-2 border-right">
+                        <div class="description-block">
+                            <span class="description-header text-danger">Çıkan Oda</span>
+                            <h5 class="description-header">@Model.DepremDashboard.Sum(x => x.CikanOda).ToString()</h5>
 
                         </div>
                         <!-- /.description-block -->
                     </div>
                     <!-- /.col -->
                     <!-- /.col -->
-                    <div class="col-md-6">
+                    <div class="col-md-2">
+                        <div class="description-block">
+                            <span class="description-header text-success">Mevcut Kişi</span>
+                            <h5 class="description-header">@Model.DepremDashboard.Sum(x => x.MevcutKisi).ToString()</h5>
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <div class="col-md-2 border-right">
+                        <div class="description-block">
+                            <span class="description-header text-danger">Çıkan Kişi</span>
+                            <h5 class="description-header">@Model.DepremDashboard.Sum(x => x.CikanKisi).ToString()</h5>
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <div class="col-md-2">
                         <div class="description-block">
                             <span class="description-header">Toplam Kişi</span>
-                            <h5 class="description-header">@Model.Sum(x => x.UserTotal).ToString()</h5>
+                            <h5 class="description-header">@Model.DepremDashboard.Sum(x => x.MevcutKisi + x.CikanKisi).ToString()</h5>
 
                         </div>
                         <!-- /.description-block -->
@@ -53,5 +85,5 @@ else
         <!-- /.info-box -->
     </div>
 </div>
-     
+
 }

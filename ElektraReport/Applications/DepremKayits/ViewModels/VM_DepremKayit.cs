@@ -27,6 +27,11 @@ namespace ElektraReport.Applications.DepremKayits.ViewModels
         public string Cinsiyet { get; set; }
         public bool isCheckOut { get; set; }
         public string ClientIp { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime ModifyDate { get; set; }
+        public string ModifyClientIp { get; set; }
+        public bool BlackList { get; set; } = false;
+        public string BlackListNote { get; set; }
         public void CreateMappings(Profile configuration)
         {
             configuration.CreateMap<VM_DepremKayit, DepremKayit>();
