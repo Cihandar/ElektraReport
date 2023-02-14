@@ -6,6 +6,11 @@
 
             <div class="card-header">
                 <div class="row">
+                    <div class="col-12">
+                        <h3>Kara Listeye Alınanlar</h3>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-4 form-group">
                         <select class="form-control" id="companyName">
                             <option value="00000000-0000-0000-0000-000000000000">Tüm Oteller</option>
@@ -42,7 +47,7 @@
                             <th>#</th>
                             <th width="50">İşlemler</th>
                             <th>Otel Adı</th>
-                            <th>Odano</th>
+                            <th>Nedeni</th>
                             <th>T.C. No</th>
                             <th>Adı</th>
                             <th>Soyadı</th>
@@ -94,7 +99,7 @@
                     }
                 },
                 { "data": "otelAdi" },
-                { "data": "odano" },
+                { "data": "blackListNote" },
                 { "data": "tcNo" },
                 { "data": "adi" },
                 { "data": "soyadi" },
@@ -126,7 +131,7 @@
             var get = "CompanyId=" + $("#companyName").val();
             get = get + "&adsoyad=" + $("#adsoyad").val();
             get = get + "&tcno=" + $("#tcno").val();
-            GetData("/DepremKayit/BlackList?"+get, "", "", clmns);
+            GetData("/DepremKayit/GetBlackList?"+get, "", "", clmns);
 
         };
 

@@ -67,7 +67,7 @@ namespace ElektraReport.Applications.Auths.Commands
                             {
                                 ClientIp = model.ClientIp,
                                 Note = "Kayıt Oldu",
-                                Tarih = DateTime.UtcNow,
+                                Tarih = DateTime.Now,
                                 UserId = user.Id,
                                 UserName = user.Email,
                                 CompanyId = user.CompanyId
@@ -114,8 +114,8 @@ namespace ElektraReport.Applications.Auths.Commands
             new Log
             {
                 ClientIp = model.ClientIp,
-                Note = "Kayıt Oldu",
-                Tarih = DateTime.UtcNow,
+                Note = "Giriş Yaptı",
+                Tarih = DateTime.Now,
                 UserId = user.Id,
                 UserName = user.Email,
                 CompanyId = user.CompanyId

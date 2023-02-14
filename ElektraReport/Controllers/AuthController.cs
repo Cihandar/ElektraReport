@@ -65,13 +65,20 @@ namespace ElektraReport.Controllers
         //    ]
         public async Task<IActionResult> Register(VM_AuthRegister model)
         {
-            if(ModelState.IsValid)
-            {
-                model.ClientIp = HttpContext?.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+            if(string.IsNullOrEmpty(model.Company.CompanyName))
+                   return Json(new ResultJson<AppUser> { Success = false, Message = "Tesis Adı Boş Olamaz", Data = null });
+            if (string.IsNullOrEmpty(model.Company.Phone))
+                return Json(new ResultJson<AppUser> { Success = false, Message = "Telefon Boş Olamaz", Data = null });
+            if (string.IsNullOrEmpty(model.Email))
+                return Json(new ResultJson<AppUser> { Success = false, Message = "Email Boş Olamaz", Data = null });
+            if (model.Company.CompanyType==Models.Enums.CompanyType.Bos)
+                return Json(new ResultJson<AppUser> { Success = false, Message = "Lütfen Tesis Tipi Seçin", Data = null });
+
+            model.ClientIp = HttpContext?.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
                 var result = await _authCrud.Register(model);
 
                 return Json(result);
-            }
+ 
             return Json(new ResultJson<AppUser> { Success = false, Message = "Hata",Data=null });
         }
 

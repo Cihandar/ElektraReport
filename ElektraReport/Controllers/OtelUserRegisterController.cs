@@ -10,6 +10,7 @@ using ElektraReport.Components;
 using System.IO;
 using ClosedXML.Excel;
 using ElektraReport.Models;
+using ElektraReport.Models.ResultModels;
 
 namespace ElektraReport.Controllers
 {
@@ -46,6 +47,8 @@ namespace ElektraReport.Controllers
         [HttpPost]
         public async Task<IActionResult> SetActiveUser(string email)
         {
+            if(!OnayYetki)
+                return Json(new ResultJson<AppUser> { Success = false, Message = "Onay Yetkiniz Yok !", Data = null });
             var result = await _authCrud.SetActiveUser(email);
             return Json(result);
         }
@@ -53,8 +56,12 @@ namespace ElektraReport.Controllers
         [HttpPost]
         public async Task<IActionResult> SetDisable(string email)
         {
+            if (!OnayYetki)
+                return Json(new ResultJson<AppUser> { Success = false, Message = "Onay Yetkiniz Yok !", Data = null });
             var result = await _authCrud.SetDisableUser(email);
             return Json(result);
         }
+
+  
     }
 }

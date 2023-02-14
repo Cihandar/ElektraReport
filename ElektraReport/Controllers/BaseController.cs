@@ -24,6 +24,7 @@ namespace ElektraReport.Controllers
         public static Guid CompanyId { get; set; }
         public static string CompanyName { get; set; }
         public static bool Admin { get; set; } = false;
+        public static bool OnayYetki { get; set; } = false;
 
 
 
@@ -44,6 +45,7 @@ namespace ElektraReport.Controllers
                     CompanyId = appUser.CompanyId;
                     Admin = appUser.Admin;
                     ViewBag.Admin = appUser.Admin;
+                    OnayYetki = appUser.OnayYetki;
                 }
                 else
                 {

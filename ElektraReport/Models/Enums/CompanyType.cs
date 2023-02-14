@@ -8,8 +8,10 @@ namespace ElektraReport.Models.Enums
  
         public enum CompanyType
         {
-            Otel = 0,
-            Yurt = 1
+            Bos = 0,
+            Otel = 1,
+            Yurt = 2
+          
         }
   
 }

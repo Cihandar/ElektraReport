@@ -86,6 +86,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
                 depremKayit.TcNo = model.TcNo;
                 depremKayit.BlackList = model.BlackList;
                 depremKayit.BlackListNote = model.BlackListNote;
+                depremKayit.isCheckOut = model.isCheckOut;
 
                 _context.SaveChanges();
 
@@ -103,6 +104,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
             var result = _mapper.Map<List<VM_DepremKayit>>(DepremKayit);
             return result;
         }
+
         public async Task<VM_DepremKayit> GetById(Guid Id)
         {
             var DepremKayit = _context.DepremKayits.Where(x => x.Id == Id && (x.IsDeleted == null || x.IsDeleted != true)).FirstOrDefault();

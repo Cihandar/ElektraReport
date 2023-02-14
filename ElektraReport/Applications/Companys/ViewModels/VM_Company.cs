@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ElektraReport.Interfaces.Mappings;
 using ElektraReport.Models;
+using ElektraReport.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace ElektraReport.Applications.Companys.ViewModels
         public string Password { get; set; }
         public string Phone { get; set; }
         public string Name { get; set; }
-
+        public CompanyType CompanyType { get; set; }
         public void CreateMappings(Profile configuration)
         {
             configuration.CreateMap<VM_Company, Company>();

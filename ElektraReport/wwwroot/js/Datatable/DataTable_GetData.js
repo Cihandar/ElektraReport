@@ -22,14 +22,7 @@
                     "data-endpoint": create,
                     title: "Yeni Ekle"
                 },
-            },
-
-            { extend: 'print', text: 'Listeyi Yazdır' },
-            //{ extend: 'copyHtml5', text: 'Kopyala' },
-            { extend: 'excelHtml5', text: 'Excel' },
-            { extend: 'csvHtml5', text: 'CSV' },
-            { extend: 'pdfHtml5', text: 'PDF' },
-            // { extend: 'colvis', text: 'Göster' }
+            }, 
         ];
     }
 

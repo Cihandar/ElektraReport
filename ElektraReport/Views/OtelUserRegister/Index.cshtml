@@ -95,8 +95,13 @@
                         processData: false,
                         success: function (data) {
                             if (data) {
-
-                                Notiflix.Notify.Success("Onaylama Başarılı..");
+                                console.log(data);
+                                if (data.success) {
+                                    Notiflix.Notify.Success("Onaylama Başarılı..");
+                                } else {
+                                    Notiflix.Notify.Failure(data.message);
+                                }
+                                
 
 
                             } else {
@@ -129,8 +134,12 @@
                         processData: false,
                         success: function (data) {
                             if (data) {
-
-                                Notiflix.Notify.Success("Kullanıcı Onaylanmadı");
+                                if (data.success) {
+                                    Notiflix.Notify.Success("Kullanıcı Onaylanmadı");
+                                } else {
+                                    Notiflix.Notify.Failure(data.message);
+                                }
+                            
 
 
                             } else {

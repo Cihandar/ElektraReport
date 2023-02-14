@@ -84,7 +84,7 @@ namespace ElektraReport.Controllers
         public async Task<IActionResult> Update(VM_DepremKayit model)
         {
             model.ModifyClientIp = HttpContext?.Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
-            model.ModifyDate = DateTime.UtcNow;
+            model.ModifyDate = DateTime.Now;
             var result = await _DepremKayitCrud.Update(model);
             return Json(result);
         }
@@ -136,7 +136,17 @@ namespace ElektraReport.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> BlackList(Guid companyId, string adsoyad, string tcno)
+        public async Task<IActionResult> BlackList(Guid Id)
+        {
+            if (!Admin) return Redirect("/Auth/Logout");
+            ViewBag.CompanyId = Id;
+            var result = await _company.GetAll(CompanyId);
+            return View("BlackList", result);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetBlackList(Guid companyId, string adsoyad, string tcno)
         {
             if (!Admin) return Redirect("/Auth/Logout");
             var result = await _DepremKayitCrud.GetAllOtelBlackList(companyId, adsoyad, tcno);
