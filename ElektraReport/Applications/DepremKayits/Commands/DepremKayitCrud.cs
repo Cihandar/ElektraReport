@@ -34,6 +34,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
                 model.CreateDate = DateTime.UtcNow;
                 model.BlackList = false;
                 model.BlackListNote = "";
+                model.ActionLog = model.ActionLog ??  "Tekli Kayıt";
                 var DepremKayit = _mapper.Map<DepremKayit>(model);
                 _context.DepremKayits.Add(DepremKayit);
                 _context.SaveChanges();
@@ -53,6 +54,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
                 List<ResultJson<DepremKayit>> response = new List<ResultJson<DepremKayit>>();
                 foreach (var item in model)
                 {
+                    item.ActionLog = "Çoklu Kayıt";  
                     var snc = await _context.DepremKayits.Where(x => x.Odano == item.Odano && x.TcNo == item.TcNo && x.CompanyId == item.CompanyId && (x.IsDeleted == null || x.IsDeleted != true)).FirstOrDefaultAsync();
                     var res = snc == null ? await Add(item) : null;
                     response.Add(res);
@@ -87,7 +89,7 @@ namespace ElektraReport.Applications.DepremKayits.Commands
                 depremKayit.BlackList = model.BlackList;
                 depremKayit.BlackListNote = model.BlackListNote;
                 depremKayit.isCheckOut = model.isCheckOut;
-
+                depremKayit.ActionLog = depremKayit.ActionLog +  " Update Edildi";
                 _context.SaveChanges();
 
                 return new ResultJson<DepremKayit> { Success = true, Message = "Kayıt Başarılı.", Data = depremKayit };

@@ -32,6 +32,7 @@ namespace ElektraReport.Applications.DepremKayits.ViewModels
         public string ModifyClientIp { get; set; }
         public bool BlackList { get; set; } = false;
         public string BlackListNote { get; set; }
+        public string ActionLog { get; set; }
         public void CreateMappings(Profile configuration)
         {
             configuration.CreateMap<VM_DepremKayit, DepremKayit>();

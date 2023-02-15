@@ -17,16 +17,12 @@ using System.Threading.Tasks;
 namespace ElektraReport.Controllers
 {
     [Authorize]
-
-
     public class BaseController : Controller
     {
-        public static Guid CompanyId { get; set; }
-        public static string CompanyName { get; set; }
-        public static bool Admin { get; set; } = false;
-        public static bool OnayYetki { get; set; } = false;
-
-
+        public Guid CompanyId { get; set; }
+        public string CompanyName { get; set; }
+        public bool Admin { get; set; } = false;
+        public bool OnayYetki { get; set; } = false;
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -45,6 +41,7 @@ namespace ElektraReport.Controllers
                     CompanyId = appUser.CompanyId;
                     Admin = appUser.Admin;
                     ViewBag.Admin = appUser.Admin;
+                    ViewBag.CompanyId = appUser.CompanyId;
                     OnayYetki = appUser.OnayYetki;
                 }
                 else
@@ -56,6 +53,5 @@ namespace ElektraReport.Controllers
 
         }
     }
-
 }
 

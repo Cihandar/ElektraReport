@@ -27,5 +27,7 @@ namespace ElektraReport.Models
         public string ModifyClientIp { get; set; }
         public bool BlackList { get; set; } = false;
         public string BlackListNote { get; set; }
+        public string ActionLog { get; set; }
+
     }
 }
